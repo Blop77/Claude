@@ -40,8 +40,12 @@ _textract = None
 _table = None
 _polly = None
 
-# Amazon Polly voices. Polly has no Marathi voice, so Marathi is text-only.
-POLLY_VOICES = {"hi": ("Kajal", "hi-IN"), "en": ("Kajal", "en-IN")}
+# Amazon Polly voices, tried in order (neural first, standard as fallback).
+# Polly has no Marathi voice, so Marathi is text-only.
+POLLY_VOICES = {
+    "hi": [("Kajal", "hi-IN", "neural"), ("Aditi", "hi-IN", "standard")],
+    "en": [("Kajal", "en-IN", "neural"), ("Aditi", "en-IN", "standard")],
+}
 MAX_SPEAK_CHARS = 1500
 
 
@@ -91,7 +95,8 @@ def extract(body: dict) -> tuple[int, dict]:
         resp = _get_textract().detect_document_text(Document={"Bytes": image})
     except Exception as exc:  # surface a readable message, log the detail
         print(f"textract error: {exc!r}")
-        return 502, {"error": "Could not read the prescription photo. Try a clearer photo or type the medicines."}
+        return 502, {"error": "Could not read the prescription photo. Try a clearer photo or type the medicines.",
+                     "code": _aws_code(exc)}
     lines = [b["Text"] for b in resp.get("Blocks", []) if b.get("BlockType") == "LINE"]
     text = "\n".join(lines)
     result = CATALOG.analyse(parse_lines(text))
@@ -125,15 +130,16 @@ def speak(body: dict) -> tuple[int, dict]:
         return 400, {"error": "Nothing to read aloud."}
     if os.environ.get("OCR_DISABLED") == "1":  # local mode: no AWS calls
         return 503, {"error": "Audio needs the AWS deployment."}
-    voice, code = POLLY_VOICES[lang]
-    try:
-        resp = _get_polly().synthesize_speech(Text=text[:MAX_SPEAK_CHARS], VoiceId=voice, LanguageCode=code,
-                                              Engine="neural", OutputFormat="mp3")
-        audio = resp["AudioStream"].read()
-    except Exception as exc:
-        print(f"polly error: {exc!r}")
-        return 502, {"error": "Could not create audio right now."}
-    return 200, {"audio_base64": base64.b64encode(audio).decode()}
+    last_code = None
+    for voice, code, engine in POLLY_VOICES[lang]:
+        try:
+            resp = _get_polly().synthesize_speech(Text=text[:MAX_SPEAK_CHARS], VoiceId=voice, LanguageCode=code,
+                                                  Engine=engine, OutputFormat="mp3")
+            return 200, {"audio_base64": base64.b64encode(resp["AudioStream"].read()).decode(), "voice": voice}
+        except Exception as exc:
+            last_code = _aws_code(exc)
+            print(f"polly error ({voice}/{engine}): {exc!r}")
+    return 502, {"error": "Could not create audio right now.", "code": last_code}
 
 
 def kendras(params: dict) -> tuple[int, dict]:
@@ -246,6 +252,14 @@ def _km(la1, lo1, la2, lo2) -> float:
     dp, dl = p2 - p1, math.radians(lo2 - lo1)
     a = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
     return 6371 * 2 * math.asin(math.sqrt(a))
+
+
+def _aws_code(exc) -> str:
+    """AWS error code only (e.g. 'AccessDeniedException') - no account details."""
+    try:
+        return exc.response["Error"]["Code"]
+    except Exception:
+        return type(exc).__name__
 
 
 def _schedule(v):
