@@ -56,7 +56,7 @@ MedLens explains; it doesn't replace a doctor or pharmacist, and the app says so
 | Amazon S3 + CloudFront | Hosts the mobile-friendly web app at one HTTPS URL |
 | CloudWatch Logs | Function logs, 7-day retention |
 
-Infrastructure as code: one AWS SAM template (`infra/template.yaml`), deployed to ap-south-1 (Mumbai).
+Infrastructure as code: one AWS SAM template (`infra/template.yaml`). Stack region: [TODO: eu-north-1 now — move to ap-south-1 Mumbai?]; Textract and Polly are called in ap-south-1.
 Region, budget alarm and Free Tier usage: [TODO: confirm after deploy].
 
 **What is live vs. limited**
@@ -84,7 +84,7 @@ Use a **printed, synthetic** prescription. Never show a real patient's prescript
 | 0:40–1:20 | Medicine cards in Hindi: schedule chart, uses, side effects, warning; tap **🔊 सुनें** | "Each medicine: what it's for, when to take it, what to watch for — and Amazon Polly reads it aloud." |
 | 1:20–1:30 | Switch to **मराठी** | "Marathi too." |
 | 1:30–2:05 | Savings section: branded vs Jan Aushadhi, monthly saving; Kendra by pincode; WhatsApp list | "Then MedLens finds the Jan Aushadhi medicine with the exact same salt and strength — here that's [TODO: real saving from real data] a month — and the nearest Kendra." |
-| 2:05–2:30 | Architecture diagram: Phone → CloudFront → API Gateway → Lambda → Textract / Polly / DynamoDB | "All on AWS: serverless, in the Mumbai region, inside the Free Tier." |
+| 2:05–2:30 | Architecture diagram: Phone → CloudFront → API Gateway → Lambda → Textract / Polly / DynamoDB | "All on AWS: serverless, inside the Free Tier." [TODO: say "Mumbai region" only if the stack is moved there] |
 | 2:30–2:45 | Disclaimer + "ask your pharmacist" state for an unknown medicine | "When we're not sure, we say so. MedLens never guesses." |
 | 2:45–2:55 | Team names, live URL | "MedLens. Built by [TODO: team names]." |
 
