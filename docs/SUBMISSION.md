@@ -3,6 +3,8 @@
 Adapted from our original MedLens writeup. Every claim below must match the deployed app.
 `[TODO]` = we must fill it with a real fact; never invent one.
 
+**Team:** Nebula Nomads (TM-9890B209505) — Ishaan Singh, Akanksha Singh, Faaz Khan, Arnav Mankawade
+
 **Tagline:** Understand your prescription in your own language.
 
 ---
@@ -86,7 +88,7 @@ Use a **printed, synthetic** prescription. Never show a real patient's prescript
 | 1:30–2:05 | Savings section: branded vs Jan Aushadhi, monthly saving; Kendra by pincode; WhatsApp list | "Then MedLens finds the Jan Aushadhi medicine with the exact same salt and strength — here that's [TODO: real saving from real data] a month — and the nearest Kendra." |
 | 2:05–2:30 | Architecture diagram: Phone → CloudFront → API Gateway → Lambda → Textract / Polly / DynamoDB | "All on AWS: serverless, inside the Free Tier." [TODO: say "Mumbai region" only if the stack is moved there] |
 | 2:30–2:45 | Disclaimer + "ask your pharmacist" state for an unknown medicine | "When we're not sure, we say so. MedLens never guesses." |
-| 2:45–2:55 | Team names, live URL | "MedLens. Built by [TODO: team names]." |
+| 2:45–2:55 | Team names, live URL | "MedLens. Built by Team Nebula Nomads — Ishaan Singh, Akanksha Singh, Faaz Khan and Arnav Mankawade." |
 
 ---
 
