@@ -1,12 +1,15 @@
-# SastiDawa — same salt, same strength, lower price
+# MedLens — understand your prescription in your own language
 
-> For **families buying regular medicines** who need to **cut their monthly medicine bill**,
-> SastiDawa shows **how much they can save** by **reading their prescription and matching each
-> branded drug to a Jan Aushadhi generic with the same salt, strength and form, at the nearest Kendra**.
+> For **patients who read Hindi or Marathi better than English**, MedLens **explains every medicine
+> on their prescription in simple words** — what it's for, when to take it, what to watch for — and
+> shows **cheaper Jan Aushadhi equivalents with the same salt and strength**.
 
 Built for the **Campus to Cloud Hackathon — Techfest, IIT Bombay (2026)**.
 
 ## Why
+
+- Prescriptions are written in English and medical shorthand (`1-0-1`, `BD`); many patients depend
+  on a pharmacist or relative to understand them. [TODO: add a sourced statistic or a real story]
 
 - Households paid **39.4% of India's total health expenditure** out of pocket in 2021-22
   (≈ ₹3.56 lakh crore; ₹2,600 per person) — National Health Accounts 2021-22, MoHFW.
@@ -17,10 +20,13 @@ Built for the **Campus to Cloud Hackathon — Techfest, IIT Bombay (2026)**.
 ## What it does (demo flow)
 
 1. Upload a prescription photo (**Amazon Textract** reads it) or type medicines.
-2. Review and correct what was read; dosage like `1-0-1 x 30 days` becomes a monthly quantity.
+2. Each medicine is explained in **English, Hindi or Marathi**: what it's for, how to take it,
+   common side effects, and one key warning; `1-0-1 x 30 days` becomes a morning/afternoon/night
+   chart. **Amazon Polly** reads it aloud in Hindi or English.
+   Explanations come from a fixed reference file (`data/medicine_info.json`), not a generative model.
 3. Each brand is matched to a Jan Aushadhi product with the **exact same salts, strengths and
    dosage form** (modified-release kept separate). No near-miss is ever substituted.
-4. See monthly and yearly savings, find nearby Kendras, and share the list on WhatsApp or via a
+4. Users can correct what was read. See monthly and yearly savings, find nearby Kendras, and share the list on WhatsApp or via a
    30-day link (**DynamoDB** with TTL).
 
 ## Architecture
@@ -29,6 +35,7 @@ Built for the **Campus to Cloud Hackathon — Techfest, IIT Bombay (2026)**.
 Browser ── CloudFront ──┬── S3 (static site, private, OAC)
                         └── /api/* ── API Gateway (HTTP API, throttled) ── Lambda (Python 3.12)
                                                                           ├── Textract  (OCR)
+                                                                          ├── Polly     (Hindi/English audio)
                                                                           └── DynamoDB  (shared lists, TTL)
 ```
 
@@ -38,12 +45,17 @@ Browser ── CloudFront ──┬── S3 (static site, private, OAC)
 | API Gateway HTTP API | Public API, rate-limited to protect the Free Tier |
 | AWS Lambda | Prescription parsing, brand → generic matching, Kendra lookup |
 | Amazon Textract | Reading printed prescriptions (`DetectDocumentText`) |
+| Amazon Polly | Reading explanations aloud (neural voice, hi-IN / en-IN) |
 | Amazon DynamoDB | Shareable lists that auto-delete after 30 days |
 | CloudWatch Logs | Function logs (7-day retention) |
 
 ## Data status — read this
 
-The repo ships with **sample data** (`data/catalog.json`, `data/kendras.json`):
+**Medicine explanations** (`data/medicine_info.json`, 14 ingredients) are a draft written for the
+demo and **not yet reviewed by a pharmacist**; Hindi and Marathi need a native-speaker check. The app
+shows a banner until `meta.reviewed` is set to `true`.
+
+The repo ships with **sample price data** (`data/catalog.json`, `data/kendras.json`):
 salt compositions are real, **all prices and Kendras are placeholders**, and the app shows a
 banner saying so. Before the demo, import the official data:
 
@@ -72,5 +84,7 @@ Prerequisites: AWS CLI v2, [SAM CLI](https://docs.aws.amazon.com/serverless-appl
 
 - Handwritten prescriptions OCR poorly; typed entry and the review step cover this.
 - Tablets and capsules only for now (no syrups/injections).
+- Only 14 ingredients are explained so far; others show "ask your pharmacist".
+- No Marathi audio: Amazon Polly has no Marathi voice.
 - Brand prices must come from a citable source; we don't scrape pharmacy sites.
 - **Not medical advice.** Users are told to confirm any switch with their doctor or pharmacist.

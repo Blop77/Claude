@@ -1,16 +1,16 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  SastiDawa - Jan Aushadhi generic medicine finder.
+  MedLens - understand your prescription in your own language, and save with Jan Aushadhi.
   CloudFront (one URL) -> S3 static site + API Gateway HTTP API -> Lambda (Python)
-  -> Textract (OCR) + DynamoDB (shared lists, auto-expire via TTL).
+  -> Textract (OCR) + Polly (Hindi audio) + DynamoDB (shared lists, auto-expire via TTL).
 
 Globals:
   Function:
     Runtime: python3.12
     Architectures: [arm64]
     MemorySize: 256
-    Timeout: 20
+    Timeout: 25
 
 Resources:
   # ---------------------------------------------------------------- API
@@ -34,6 +34,9 @@ Resources:
         - Statement:
             - Effect: Allow
               Action: textract:DetectDocumentText
+              Resource: "*"
+            - Effect: Allow
+              Action: polly:SynthesizeSpeech
               Resource: "*"
       Events:
         Any:

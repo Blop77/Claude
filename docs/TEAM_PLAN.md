@@ -1,4 +1,4 @@
-# SastiDawa — team plan (Campus to Cloud, Techfest IIT Bombay)
+# MedLens — team plan (Campus to Cloud, Techfest IIT Bombay)
 
 **Round 1 deadline: Sun 30 Nov 2026, 11:59 PM IST. We submit by 6 PM.**
 Only the **Team Leader** can submit. Prototype URL must stay live until **17 Dec**.
@@ -11,9 +11,9 @@ One integrator (A) merges to `main`.
 | | Role | Owns | Main job |
 |---|---|---|---|
 | **A** | Team Leader + Cloud | `infra/`, `scripts/deploy.sh`, `main` branch | AWS account, deploy, integrate, submit |
-| **B** | Data | `data/`, `scripts/import_catalog.py` | Official Jan Aushadhi list, 50 brands with cited MRPs, Kendra list |
+| **B** | Data + medical review | `data/`, `scripts/import_catalog.py` | Official Jan Aushadhi list, brands with cited MRPs, Kendra list; **get a pharmacist to review `medicine_info.json`** |
 | **C** | Backend + OCR | `backend/`, `tests/` | Real-prescription OCR testing, parser fixes, tests |
-| **D** | Frontend + Pitch | `frontend/`, `docs/pitch/` | UI polish, Hindi (stretch), video, idea brief, build summary |
+| **D** | Frontend + Pitch | `frontend/`, `docs/SUBMISSION.md` | UI polish, **Hindi/Marathi wording check** (`frontend/i18n.js` + `medicine_info.json`), video, idea brief, build summary |
 
 Workflow: each person works on their own branch (`data-…`, `ocr-…`, `ui-…`), pushes,
 and A merges. Run `python3 -m unittest discover -s tests` before pushing.
@@ -25,7 +25,7 @@ and A merges. Run `python3 -m unittest discover -s tests` before pushing.
 | **Tue 25** | Register team on techfest.org; create AWS account + budget alarm | Download PMBJP product list → CSV | Run app locally; write 8–10 **synthetic** printed prescriptions | Run app locally; list UI issues |
 | **Wed 26** | Install AWS CLI + SAM; **first deploy** with sample data | Fill `brands_template.csv` (MRP + source); run importer | Read skipped-rows list from importer; fix parser cases | Polish UI, loading states, logo |
 | **Thu 27** ★ live URL | Redeploy with real data; share URL with team | Kendra list for demo city (Pune/Mumbai) | Test OCR on live URL with the synthetic prescriptions | Draft idea brief + video script |
-| **Fri 28** | Monitoring, budget check, fix deploy issues | Expand to 50+ brands; double-check 10 matches by hand | Fix OCR misses; add tests for each | Hindi toggle (only if all above done) |
+| **Fri 28** | Monitoring, budget check, fix deploy issues | Expand to 50+ brands; double-check 10 matches by hand | Fix OCR misses; add tests for each | Add 10 more medicines to `medicine_info.json` (only if all above done) |
 | **Sat 29** 12:00 **FREEZE** | Final deploy; tag `v1-round1` | Data sanity pass | Bug fixes only | Record demo video (≤ 3 min) |
 | **Sun 30** | **Submit by 18:00** (brief, build summary, repo, video, URL) | Proof-read brief | Repo README check | Upload video (unlisted YouTube/Drive), test link in incognito |
 
@@ -66,8 +66,8 @@ Everyone: create an **AWS Builder Center** account and verify student status (ru
 
 | What the brief rewards | What in our demo proves it | Owner |
 |---|---|---|
-| Real problem for Indian users | NHA 39.4% out-of-pocket stat; savings card in ₹ | D |
+| Real problem for Indian users | Hindi/Marathi explanation of an English prescription; savings card in ₹ | D |
 | Practical, working solution | Live URL; photo → savings in < 20 s | A, C |
-| Effective use of AWS | Textract + Lambda + DynamoDB TTL + CloudFront; architecture slide | A |
-| Trust / responsibility | Exact salt match, MR separation, "no equivalent" shown, disclaimer | B, C |
+| Effective use of AWS | Textract + Polly (Hindi audio) + Lambda + DynamoDB TTL + CloudFront; architecture slide | A |
+| Trust / responsibility | Explanations from a fixed reviewed reference (no AI-generated medical text), exact salt match, MR separation, disclaimer | B, C |
 | Impact / scale | 17,990 Kendras; WhatsApp share to use at the counter | D |

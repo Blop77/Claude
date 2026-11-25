@@ -1,4 +1,4 @@
-"""Core matching logic for SastiDawa.
+"""Core matching logic for MedLens.
 
 Pure Python, no AWS dependencies, so it can be unit-tested locally.
 
@@ -130,8 +130,16 @@ def parse_lines(text: str, default_units: int = 30) -> list[dict[str, Any]]:
             units = per_day * min(days or 30, 30)
         else:
             units = default_units
-        out.append({"raw": raw, "query": query, "units": units})
+        out.append({"raw": raw, "query": query, "units": units,
+                    "schedule": parse_schedule(raw), "days": days})
     return out
+
+
+def parse_schedule(line: str) -> list[int] | None:
+    """'1-0-1' -> [1, 0, 1] (morning, afternoon, night). OD/BD/TDS are not
+    mapped to times because doctors use them differently; return None."""
+    m = re.search(r"\b([0-2])\s*-\s*([0-2])\s*-\s*([0-2])\b", line)
+    return [int(g) for g in m.groups()] if m else None
 
 
 # --------------------------------------------------------------------------
@@ -139,7 +147,8 @@ def parse_lines(text: str, default_units: int = 30) -> list[dict[str, Any]]:
 # --------------------------------------------------------------------------
 
 class Catalog:
-    def __init__(self, data: dict[str, Any]):
+    def __init__(self, data: dict[str, Any], info=None):
+        self.info = info  # optional explain.MedicineInfo
         self.brands: list[dict] = data["brands"]
         self.generics: list[dict] = data["generics"]
         self.meta: dict = data.get("meta", {})
@@ -201,8 +210,24 @@ class Catalog:
                 "raw": item.get("raw", item["query"]),
                 "query": item["query"],
                 "units": units,
+                "schedule": item.get("schedule"),
+                "days": item.get("days"),
                 "status": "no_match",
             }
+            salts = brand["salts"] if brand else (self.info.salts_in_text(item["query"]) if self.info else [])
+            if self.info and salts:
+                row["explanations"] = self.info.explain(salts)
+            if not brand and salts:
+                # Prescription names the generic directly: explain it, and show
+                # the Jan Aushadhi price when strength is known. No brand price,
+                # so no "saving" is claimed.
+                row.update({"generic_name": salts, "status": "generic_named"})
+                if salts[0]["strength"]:
+                    generic = self.find_generic(salts, "tablet")
+                    if generic:
+                        row.update({"generic": _public(generic),
+                                    "generic_unit_price": round(unit_price(generic), 2),
+                                    "generic_monthly": round(unit_price(generic) * units, 2)})
             if brand:
                 generic = self.find_generic(brand["salts"], brand["form"])
                 row.update({
@@ -231,7 +256,7 @@ class Catalog:
             "items": results,
             "summary": {
                 "matched": sum(r["status"] == "matched" for r in results),
-                "total": len(results),
+                "total": sum(r["status"] != "no_match" for r in results),  # medicines, not header lines
                 "brand_monthly": round(total_brand, 2),
                 "generic_monthly": round(total_generic, 2),
                 "monthly_saving": round(saving, 2),
@@ -240,6 +265,7 @@ class Catalog:
             },
             "data_notice": self.meta.get("notice"),
             "is_sample_data": bool(self.meta.get("is_sample")),
+            "info_notice": (self.info.meta.get("review_notice") if self.info and not self.info.meta.get("reviewed") else None),
         }
 
 

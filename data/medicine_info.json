@@ -1,0 +1,535 @@
+{
+ "meta": {
+  "reviewed": false,
+  "review_notice": {
+   "en": "Draft information, not yet reviewed by a pharmacist. General guidance only: always follow your doctor's instructions.",
+   "hi": "यह जानकारी अभी फ़ार्मासिस्ट द्वारा जाँची नहीं गई है। यह केवल सामान्य जानकारी है: हमेशा अपने डॉक्टर की सलाह मानें।",
+   "mr": "ही माहिती अद्याप फार्मासिस्टने तपासलेली नाही. ही फक्त सामान्य माहिती आहे: नेहमी डॉक्टरांच्या सूचनांचे पालन करा."
+  },
+  "reviewers": []
+ },
+ "salts": {
+  "metformin": {
+   "name": {
+    "en": "Metformin",
+    "hi": "मेटफॉर्मिन",
+    "mr": "मेटफॉर्मिन"
+   },
+   "uses": {
+    "en": "Lowers blood sugar in type 2 diabetes.",
+    "hi": "टाइप 2 डायबिटीज़ (शुगर) में खून में शुगर कम करती है।",
+    "mr": "टाइप 2 मधुमेहात (शुगर) रक्तातील साखर कमी करते."
+   },
+   "how": {
+    "en": "With or after meals.",
+    "hi": "खाने के साथ या खाने के बाद लें।",
+    "mr": "जेवणासोबत किंवा जेवणानंतर घ्या."
+   },
+   "side_effects": {
+    "en": [
+     "Upset stomach",
+     "Nausea",
+     "Diarrhoea (usually settles in a few days)"
+    ],
+    "hi": [
+     "पेट खराब होना",
+     "जी मिचलाना",
+     "दस्त (आमतौर पर कुछ दिनों में ठीक हो जाते हैं)"
+    ],
+    "mr": [
+     "पोट बिघडणे",
+     "मळमळ",
+     "जुलाब (साधारणपणे काही दिवसांत कमी होतात)"
+    ]
+   },
+   "warning": {
+    "en": "Tell your doctor if you have kidney problems. Avoid heavy drinking.",
+    "hi": "किडनी की बीमारी हो तो डॉक्टर को बताएं। ज़्यादा शराब से बचें।",
+    "mr": "मूत्रपिंडाचा (किडनी) आजार असल्यास डॉक्टरांना सांगा. जास्त मद्यपान टाळा."
+   }
+  },
+  "glimepiride": {
+   "name": {
+    "en": "Glimepiride",
+    "hi": "ग्लिमेपिराइड",
+    "mr": "ग्लिमेपिराइड"
+   },
+   "uses": {
+    "en": "Lowers blood sugar in type 2 diabetes.",
+    "hi": "टाइप 2 डायबिटीज़ में खून में शुगर कम करती है।",
+    "mr": "टाइप 2 मधुमेहात रक्तातील साखर कमी करते."
+   },
+   "how": {
+    "en": "With breakfast or the first main meal.",
+    "hi": "नाश्ते या दिन के पहले भोजन के साथ लें।",
+    "mr": "न्याहारी किंवा दिवसाच्या पहिल्या जेवणासोबत घ्या."
+   },
+   "side_effects": {
+    "en": [
+     "Low blood sugar (shaking, sweating, sudden hunger)",
+     "Weight gain"
+    ],
+    "hi": [
+     "शुगर बहुत कम होना (कांपना, पसीना, तेज़ भूख)",
+     "वज़न बढ़ना"
+    ],
+    "mr": [
+     "साखर खूप कमी होणे (थरथर, घाम, जोरात भूक)",
+     "वजन वाढणे"
+    ]
+   },
+   "warning": {
+    "en": "Don't skip meals after taking it. Keep glucose or sugar with you.",
+    "hi": "दवा लेकर खाना न छोड़ें। पास में ग्लूकोज़ या चीनी रखें।",
+    "mr": "औषध घेतल्यावर जेवण टाळू नका. जवळ ग्लुकोज किंवा साखर ठेवा."
+   }
+  },
+  "telmisartan": {
+   "name": {
+    "en": "Telmisartan",
+    "hi": "टेल्मिसार्टन",
+    "mr": "टेल्मिसार्टन"
+   },
+   "uses": {
+    "en": "Lowers high blood pressure.",
+    "hi": "हाई ब्लड प्रेशर कम करती है।",
+    "mr": "उच्च रक्तदाब कमी करते."
+   },
+   "how": {
+    "en": "Once a day at the same time, with or without food.",
+    "hi": "रोज़ एक बार एक ही समय पर, खाने के साथ या बिना।",
+    "mr": "दररोज एकदा ठराविक वेळी, जेवणासोबत किंवा जेवणाशिवाय."
+   },
+   "side_effects": {
+    "en": [
+     "Dizziness",
+     "Tiredness"
+    ],
+    "hi": [
+     "चक्कर आना",
+     "थकान"
+    ],
+    "mr": [
+     "चक्कर येणे",
+     "थकवा"
+    ]
+   },
+   "warning": {
+    "en": "Not for use in pregnancy. Tell your doctor if you are pregnant or planning to be.",
+    "hi": "गर्भावस्था में नहीं लेनी चाहिए। गर्भवती हों या योजना बना रही हों तो डॉक्टर को बताएं।",
+    "mr": "गर्भावस्थेत घेऊ नये. गर्भवती असल्यास किंवा नियोजन करत असल्यास डॉक्टरांना सांगा."
+   }
+  },
+  "amlodipine": {
+   "name": {
+    "en": "Amlodipine",
+    "hi": "एम्लोडिपिन",
+    "mr": "अॅम्लोडिपिन"
+   },
+   "uses": {
+    "en": "Lowers high blood pressure and helps prevent chest pain (angina).",
+    "hi": "हाई ब्लड प्रेशर कम करती है और सीने के दर्द (एंजाइना) से बचाती है।",
+    "mr": "उच्च रक्तदाब कमी करते आणि छातीतील दुखण्यापासून (अँजायना) बचाव करते."
+   },
+   "how": {
+    "en": "Once a day at the same time.",
+    "hi": "रोज़ एक बार एक ही समय पर।",
+    "mr": "दररोज एकदा ठराविक वेळी."
+   },
+   "side_effects": {
+    "en": [
+     "Swelling of ankles",
+     "Headache",
+     "Flushing",
+     "Dizziness"
+    ],
+    "hi": [
+     "टखनों में सूजन",
+     "सिरदर्द",
+     "चेहरे पर गर्मी या लाली",
+     "चक्कर आना"
+    ],
+    "mr": [
+     "घोट्यांना सूज",
+     "डोकेदुखी",
+     "चेहरा लाल किंवा गरम होणे",
+     "चक्कर येणे"
+    ]
+   },
+   "warning": {
+    "en": "Do not stop suddenly without asking your doctor.",
+    "hi": "डॉक्टर से पूछे बिना अचानक बंद न करें।",
+    "mr": "डॉक्टरांना विचारल्याशिवाय अचानक बंद करू नका."
+   }
+  },
+  "atorvastatin": {
+   "name": {
+    "en": "Atorvastatin",
+    "hi": "एटोरवास्टेटिन",
+    "mr": "अॅटोरवास्टॅटिन"
+   },
+   "uses": {
+    "en": "Lowers cholesterol and reduces the risk of heart attack and stroke.",
+    "hi": "कोलेस्ट्रॉल कम करती है और हार्ट अटैक व स्ट्रोक का खतरा घटाती है।",
+    "mr": "कोलेस्टेरॉल कमी करते आणि हृदयविकाराचा झटका व पक्षाघाताचा धोका कमी करते."
+   },
+   "how": {
+    "en": "Once a day, at the same time each day.",
+    "hi": "रोज़ एक बार, हर दिन एक ही समय पर।",
+    "mr": "दररोज एकदा, रोज ठराविक वेळी."
+   },
+   "side_effects": {
+    "en": [
+     "Muscle aches",
+     "Stomach upset"
+    ],
+    "hi": [
+     "मांसपेशियों में दर्द",
+     "पेट खराब होना"
+    ],
+    "mr": [
+     "स्नायू दुखणे",
+     "पोट बिघडणे"
+    ]
+   },
+   "warning": {
+    "en": "Tell your doctor about unexplained muscle pain or weakness.",
+    "hi": "बिना कारण मांसपेशियों में दर्द या कमज़ोरी हो तो डॉक्टर को बताएं।",
+    "mr": "कारण नसताना स्नायू दुखत असल्यास किंवा अशक्तपणा आल्यास डॉक्टरांना सांगा."
+   }
+  },
+  "levothyroxine": {
+   "name": {
+    "en": "Levothyroxine",
+    "hi": "लेवोथायरोक्सिन",
+    "mr": "लेव्होथायरॉक्सिन"
+   },
+   "uses": {
+    "en": "Replaces thyroid hormone when the thyroid is underactive (hypothyroidism).",
+    "hi": "थायरॉइड कम काम करने (हाइपोथायरॉइडिज़्म) पर थायरॉइड हार्मोन की कमी पूरी करती है।",
+    "mr": "थायरॉइड कमी काम करत असल्यास (हायपोथायरॉइडिझम) थायरॉइड संप्रेरकाची कमतरता भरून काढते."
+   },
+   "how": {
+    "en": "On an empty stomach in the morning, 30–60 minutes before breakfast.",
+    "hi": "सुबह खाली पेट, नाश्ते से 30–60 मिनट पहले।",
+    "mr": "सकाळी उपाशीपोटी, न्याहारीच्या 30–60 मिनिटे आधी."
+   },
+   "side_effects": {
+    "en": [
+     "Few side effects at the right dose",
+     "If the dose is too high: fast heartbeat, sweating, weight loss"
+    ],
+    "hi": [
+     "सही खुराक पर आमतौर पर कम दुष्प्रभाव",
+     "खुराक ज़्यादा हो तो: दिल की धड़कन तेज़, पसीना, वज़न घटना"
+    ],
+    "mr": [
+     "योग्य डोसवर साधारणपणे कमी दुष्परिणाम",
+     "डोस जास्त झाल्यास: हृदयाचे ठोके वाढणे, घाम, वजन कमी होणे"
+    ]
+   },
+   "warning": {
+    "en": "Keep a 4-hour gap from calcium or iron tablets.",
+    "hi": "कैल्शियम या आयरन की गोली से 4 घंटे का अंतर रखें।",
+    "mr": "कॅल्शियम किंवा लोहाच्या गोळीपासून 4 तासांचे अंतर ठेवा."
+   }
+  },
+  "aspirin": {
+   "name": {
+    "en": "Aspirin",
+    "hi": "एस्पिरिन",
+    "mr": "अॅस्पिरिन"
+   },
+   "uses": {
+    "en": "In low dose, helps prevent blood clots, heart attack and stroke.",
+    "hi": "कम खुराक में खून के थक्के, हार्ट अटैक और स्ट्रोक से बचाव में मदद करती है।",
+    "mr": "कमी डोसमध्ये रक्ताच्या गुठळ्या, हृदयविकाराचा झटका व पक्षाघात टाळण्यास मदत करते."
+   },
+   "how": {
+    "en": "After food.",
+    "hi": "खाने के बाद लें।",
+    "mr": "जेवणानंतर घ्या."
+   },
+   "side_effects": {
+    "en": [
+     "Stomach irritation",
+     "Bruising or bleeding more easily"
+    ],
+    "hi": [
+     "पेट में जलन",
+     "आसानी से नील पड़ना या खून बहना"
+    ],
+    "mr": [
+     "पोटात जळजळ",
+     "सहज काळेनिळे पडणे किंवा रक्तस्राव"
+    ]
+   },
+   "warning": {
+    "en": "Black stools or vomiting blood: get medical help at once. Tell your dentist or surgeon you take it.",
+    "hi": "काला मल या खून की उल्टी हो तो तुरंत डॉक्टर के पास जाएं। दांत के डॉक्टर या सर्जन को बताएं कि आप यह दवा लेते हैं।",
+    "mr": "काळी शौच किंवा रक्ताची उलटी झाल्यास त्वरित डॉक्टरांकडे जा. दंतवैद्य किंवा सर्जनला हे औषध घेत असल्याचे सांगा."
+   }
+  },
+  "pantoprazole": {
+   "name": {
+    "en": "Pantoprazole",
+    "hi": "पैंटोप्राज़ोल",
+    "mr": "पँटोप्राझोल"
+   },
+   "uses": {
+    "en": "Reduces stomach acid: for acidity, heartburn and stomach ulcers.",
+    "hi": "पेट का एसिड कम करती है: एसिडिटी, सीने में जलन और पेट के अल्सर में।",
+    "mr": "पोटातील आम्ल कमी करते: अॅसिडिटी, छातीत जळजळ आणि पोटातील अल्सरसाठी."
+   },
+   "how": {
+    "en": "On an empty stomach, about 30 minutes before breakfast.",
+    "hi": "खाली पेट, नाश्ते से लगभग 30 मिनट पहले।",
+    "mr": "उपाशीपोटी, न्याहारीच्या सुमारे 30 मिनिटे आधी."
+   },
+   "side_effects": {
+    "en": [
+     "Headache",
+     "Diarrhoea",
+     "Stomach pain"
+    ],
+    "hi": [
+     "सिरदर्द",
+     "दस्त",
+     "पेट दर्द"
+    ],
+    "mr": [
+     "डोकेदुखी",
+     "जुलाब",
+     "पोटदुखी"
+    ]
+   },
+   "warning": {
+    "en": "Tell your doctor if acidity continues for a long time.",
+    "hi": "एसिडिटी लंबे समय तक बनी रहे तो डॉक्टर को बताएं।",
+    "mr": "अॅसिडिटी दीर्घकाळ राहिल्यास डॉक्टरांना सांगा."
+   }
+  },
+  "paracetamol": {
+   "name": {
+    "en": "Paracetamol",
+    "hi": "पैरासिटामोल",
+    "mr": "पॅरासिटामॉल"
+   },
+   "uses": {
+    "en": "Reduces fever and relieves pain.",
+    "hi": "बुखार कम करती है और दर्द में आराम देती है।",
+    "mr": "ताप कमी करते आणि वेदना कमी करते."
+   },
+   "how": {
+    "en": "Keep at least 4–6 hours between doses.",
+    "hi": "दो खुराकों के बीच कम से कम 4–6 घंटे का अंतर रखें।",
+    "mr": "दोन डोसमध्ये किमान 4–6 तासांचे अंतर ठेवा."
+   },
+   "side_effects": {
+    "en": [
+     "Rare at the correct dose"
+    ],
+    "hi": [
+     "सही खुराक पर दुष्प्रभाव बहुत कम"
+    ],
+    "mr": [
+     "योग्य डोसवर दुष्परिणाम फार कमी"
+    ]
+   },
+   "warning": {
+    "en": "Do not take more than prescribed, or with other paracetamol medicines. Overdose can damage the liver.",
+    "hi": "बताई गई मात्रा से ज़्यादा या पैरासिटामोल वाली दूसरी दवाओं के साथ न लें। ज़्यादा मात्रा से लिवर खराब हो सकता है।",
+    "mr": "सांगितलेल्यापेक्षा जास्त किंवा पॅरासिटामॉल असलेल्या इतर औषधांसोबत घेऊ नका. जास्त डोसमुळे यकृत (लिव्हर) खराब होऊ शकते."
+   }
+  },
+  "azithromycin": {
+   "name": {
+    "en": "Azithromycin",
+    "hi": "एज़िथ्रोमाइसिन",
+    "mr": "अॅझिथ्रोमायसिन"
+   },
+   "uses": {
+    "en": "Antibiotic for bacterial infections (throat, chest, ear, skin).",
+    "hi": "बैक्टीरिया के संक्रमण (गला, छाती, कान, त्वचा) के लिए एंटीबायोटिक।",
+    "mr": "जिवाणूंच्या संसर्गासाठी (घसा, छाती, कान, त्वचा) प्रतिजैविक (अँटिबायोटिक)."
+   },
+   "how": {
+    "en": "Once a day. Finish the full course even if you feel better.",
+    "hi": "रोज़ एक बार। ठीक लगने पर भी पूरा कोर्स खत्म करें।",
+    "mr": "दररोज एकदा. बरे वाटले तरी पूर्ण कोर्स संपवा."
+   },
+   "side_effects": {
+    "en": [
+     "Diarrhoea",
+     "Nausea",
+     "Stomach pain"
+    ],
+    "hi": [
+     "दस्त",
+     "जी मिचलाना",
+     "पेट दर्द"
+    ],
+    "mr": [
+     "जुलाब",
+     "मळमळ",
+     "पोटदुखी"
+    ]
+   },
+   "warning": {
+    "en": "Does not work for viral cold or flu.",
+    "hi": "वायरल सर्दी-ज़ुकाम या फ्लू में काम नहीं करती।",
+    "mr": "विषाणूजन्य सर्दी किंवा फ्लूवर काम करत नाही."
+   }
+  },
+  "amoxicillin": {
+   "name": {
+    "en": "Amoxicillin",
+    "hi": "अमोक्सिसिलिन",
+    "mr": "अॅमॉक्सिसिलिन"
+   },
+   "uses": {
+    "en": "Antibiotic for bacterial infections.",
+    "hi": "बैक्टीरिया के संक्रमण के लिए एंटीबायोटिक।",
+    "mr": "जिवाणूंच्या संसर्गासाठी प्रतिजैविक."
+   },
+   "how": {
+    "en": "Finish the full course even if you feel better.",
+    "hi": "ठीक लगने पर भी पूरा कोर्स खत्म करें।",
+    "mr": "बरे वाटले तरी पूर्ण कोर्स संपवा."
+   },
+   "side_effects": {
+    "en": [
+     "Diarrhoea",
+     "Nausea",
+     "Skin rash"
+    ],
+    "hi": [
+     "दस्त",
+     "जी मिचलाना",
+     "त्वचा पर दाने"
+    ],
+    "mr": [
+     "जुलाब",
+     "मळमळ",
+     "त्वचेवर पुरळ"
+    ]
+   },
+   "warning": {
+    "en": "Tell your doctor if you are allergic to penicillin. Swelling of the face or difficulty breathing: get help at once.",
+    "hi": "पेनिसिलिन से एलर्जी हो तो डॉक्टर को बताएं। चेहरे पर सूजन या सांस लेने में तकलीफ हो तो तुरंत मदद लें।",
+    "mr": "पेनिसिलिनची अॅलर्जी असल्यास डॉक्टरांना सांगा. चेहऱ्यावर सूज किंवा श्वास घेण्यास त्रास झाल्यास त्वरित मदत घ्या."
+   }
+  },
+  "clavulanic acid": {
+   "name": {
+    "en": "Clavulanic acid",
+    "hi": "क्लैवुलैनिक एसिड",
+    "mr": "क्लॅव्ह्युलॅनिक अॅसिड"
+   },
+   "uses": {
+    "en": "Helps amoxicillin work against bacteria that resist it.",
+    "hi": "अमोक्सिसिलिन को उन बैक्टीरिया पर असर करने में मदद करता है जिन पर वह अकेले काम नहीं करता।",
+    "mr": "अॅमॉक्सिसिलिन एकटे काम करत नाही अशा जिवाणूंवर ते प्रभावी होण्यास मदत करते."
+   },
+   "how": {
+    "en": "Take at the start of a meal.",
+    "hi": "भोजन की शुरुआत में लें।",
+    "mr": "जेवणाच्या सुरुवातीला घ्या."
+   },
+   "side_effects": {
+    "en": [
+     "Diarrhoea",
+     "Nausea"
+    ],
+    "hi": [
+     "दस्त",
+     "जी मिचलाना"
+    ],
+    "mr": [
+     "जुलाब",
+     "मळमळ"
+    ]
+   },
+   "warning": {
+    "en": "Finish the full course.",
+    "hi": "पूरा कोर्स खत्म करें।",
+    "mr": "पूर्ण कोर्स संपवा."
+   }
+  },
+  "montelukast": {
+   "name": {
+    "en": "Montelukast",
+    "hi": "मॉन्टेलुकास्ट",
+    "mr": "मॉन्टेल्युकास्ट"
+   },
+   "uses": {
+    "en": "Helps prevent asthma attacks and allergy symptoms.",
+    "hi": "अस्थमा के दौरे और एलर्जी के लक्षणों से बचाव में मदद करती है।",
+    "mr": "दम्याचे झटके आणि अॅलर्जीची लक्षणे टाळण्यास मदत करते."
+   },
+   "how": {
+    "en": "Once a day in the evening.",
+    "hi": "रोज़ एक बार शाम को।",
+    "mr": "दररोज एकदा संध्याकाळी."
+   },
+   "side_effects": {
+    "en": [
+     "Headache",
+     "Stomach pain"
+    ],
+    "hi": [
+     "सिरदर्द",
+     "पेट दर्द"
+    ],
+    "mr": [
+     "डोकेदुखी",
+     "पोटदुखी"
+    ]
+   },
+   "warning": {
+    "en": "Not for a sudden asthma attack. Tell your doctor about mood changes or bad dreams.",
+    "hi": "अचानक अस्थमा के दौरे में काम नहीं करती। मूड में बदलाव या बुरे सपने आएं तो डॉक्टर को बताएं।",
+    "mr": "अचानक दम्याच्या झटक्यावर उपयोगी नाही. मनःस्थितीत बदल किंवा वाईट स्वप्ने आल्यास डॉक्टरांना सांगा."
+   }
+  },
+  "levocetirizine": {
+   "name": {
+    "en": "Levocetirizine",
+    "hi": "लेवोसेटिरिज़िन",
+    "mr": "लेव्होसेटिरिझिन"
+   },
+   "uses": {
+    "en": "Relieves allergy symptoms: sneezing, runny nose, itchy eyes and skin.",
+    "hi": "एलर्जी के लक्षणों में आराम: छींक, नाक बहना, आंखों और त्वचा में खुजली।",
+    "mr": "अॅलर्जीच्या लक्षणांपासून आराम: शिंका, नाक वाहणे, डोळे व त्वचेला खाज."
+   },
+   "how": {
+    "en": "Once a day in the evening.",
+    "hi": "रोज़ एक बार शाम को।",
+    "mr": "दररोज एकदा संध्याकाळी."
+   },
+   "side_effects": {
+    "en": [
+     "Sleepiness",
+     "Dry mouth",
+     "Tiredness"
+    ],
+    "hi": [
+     "नींद आना",
+     "मुंह सूखना",
+     "थकान"
+    ],
+    "mr": [
+     "झोप येणे",
+     "तोंड कोरडे पडणे",
+     "थकवा"
+    ]
+   },
+   "warning": {
+    "en": "Avoid driving if you feel sleepy. Avoid alcohol.",
+    "hi": "नींद आए तो गाड़ी न चलाएं। शराब से बचें।",
+    "mr": "झोप येत असल्यास वाहन चालवू नका. मद्यपान टाळा."
+   }
+  }
+ }
+}

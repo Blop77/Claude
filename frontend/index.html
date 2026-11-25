@@ -3,93 +3,102 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SastiDawa — same medicine, lower price</title>
-  <meta name="description" content="Find Jan Aushadhi generic medicines with the same salt and strength as your prescription, and see how much you save.">
+  <title>MedLens — understand your prescription</title>
+  <meta name="description" content="Take a photo of a prescription and understand each medicine in Hindi, Marathi or English — and find cheaper Jan Aushadhi equivalents.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="top">
-    <div class="wrap">
-      <h1>Sasti<span>Dawa</span></h1>
-      <p class="tag">Same salt. Same strength. Lower price.</p>
+    <div class="wrap head-row">
+      <div>
+        <h1>Med<span>Lens</span></h1>
+        <p class="tag" data-i18n="tagline"></p>
+      </div>
+      <div class="lang" role="group" aria-label="Language">
+        <button data-lang="en">English</button>
+        <button data-lang="hi">हिन्दी</button>
+        <button data-lang="mr">मराठी</button>
+      </div>
     </div>
   </header>
 
   <main class="wrap">
-    <div id="sample-banner" class="banner" hidden></div>
+    <div id="banners"></div>
 
     <!-- Step 1: input -->
     <section class="card" id="step-input">
-      <h2><span class="num">1</span> Add your prescription</h2>
+      <h2><span class="num">1</span> <span data-i18n="s1"></span></h2>
       <div class="input-grid">
         <label class="upload">
           <input type="file" id="photo" accept="image/*" capture="environment">
-          <strong>📷 Upload a photo</strong>
-          <small>Printed or e-prescriptions work best</small>
+          <strong data-i18n="upload"></strong>
+          <small data-i18n="uploadHint"></small>
         </label>
-        <div class="or">or</div>
+        <div class="or" data-i18n="or"></div>
         <div>
-          <label for="rx-text" class="label">Type medicines, one per line</label>
+          <label for="rx-text" class="label" data-i18n="typeLabel"></label>
           <textarea id="rx-text" rows="5" placeholder="Tab Glycomet 500 1-0-1 x 30 days&#10;Telma 40&#10;Ecosprin 75"></textarea>
           <div class="row">
-            <button id="btn-text" class="primary">Find generics</button>
-            <button id="btn-sample" class="ghost" type="button">Try a sample prescription</button>
+            <button id="btn-text" class="primary" data-i18n="go"></button>
+            <button id="btn-sample" class="ghost" type="button" data-i18n="sample"></button>
           </div>
         </div>
       </div>
       <p id="status" class="status" role="status" aria-live="polite"></p>
     </section>
 
-    <!-- Step 2: review + results -->
-    <section class="card" id="step-results" hidden>
-      <h2><span class="num">2</span> Check what we read</h2>
-      <p class="hint">Fix any medicine name or monthly quantity, then press <b>Recheck</b>. Rows we couldn't match are listed at the bottom.</p>
-      <div class="table-wrap">
-        <table id="results">
-          <thead><tr>
-            <th>Prescribed</th><th>Qty / month</th><th>Jan Aushadhi equivalent</th><th class="num-col">Saving / month</th>
-          </tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-      <button id="btn-recheck" class="ghost">Recheck</button>
+    <!-- Step 2: explanations -->
+    <section class="card" id="step-explain" hidden>
+      <h2><span class="num">2</span> <span data-i18n="s2"></span></h2>
+      <div id="med-cards" class="med-cards"></div>
+      <details class="fix">
+        <summary data-i18n="fixTitle"></summary>
+        <p class="hint" data-i18n="fixHint"></p>
+        <div id="fix-list"></div>
+        <button id="btn-recheck" class="ghost" data-i18n="recheck"></button>
+      </details>
     </section>
 
     <!-- Step 3: savings -->
     <section class="card savings" id="step-savings" hidden>
-      <h2><span class="num">3</span> Your savings</h2>
+      <h2><span class="num">3</span> <span data-i18n="s3"></span></h2>
       <div class="big">
-        <div><small>Branded</small><b id="s-brand"></b></div>
+        <div><small data-i18n="branded"></small><b id="s-brand"></b></div>
         <div class="arrow">→</div>
         <div><small>Jan Aushadhi</small><b id="s-generic"></b></div>
       </div>
-      <p class="save-line">You save <b id="s-month"></b> a month — <b id="s-year"></b> a year (<span id="s-pct"></span>)</p>
+      <p class="save-line" id="save-line"></p>
+      <div class="table-wrap">
+        <table id="results">
+          <thead><tr>
+            <th data-i18n="thPrescribed"></th><th data-i18n="thGeneric"></th><th class="num-col" data-i18n="thSaving"></th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
       <div class="row">
-        <a id="btn-whatsapp" class="primary" target="_blank" rel="noopener">Share list on WhatsApp</a>
-        <button id="btn-share" class="ghost">Copy share link</button>
+        <a id="btn-whatsapp" class="primary" target="_blank" rel="noopener" data-i18n="whatsapp"></a>
+        <button id="btn-share" class="ghost" data-i18n="copyLink"></button>
       </div>
       <p id="share-status" class="status" role="status" aria-live="polite"></p>
     </section>
 
     <!-- Step 4: kendras -->
     <section class="card" id="step-kendra" hidden>
-      <h2><span class="num">4</span> Buy at a Jan Aushadhi Kendra</h2>
+      <h2><span class="num">4</span> <span data-i18n="s4"></span></h2>
       <div class="row">
-        <input id="pincode" inputmode="numeric" maxlength="6" placeholder="6-digit pincode" aria-label="Pincode">
-        <button id="btn-pin" class="primary">Find Kendras</button>
-        <button id="btn-loc" class="ghost">Use my location</button>
+        <input id="pincode" inputmode="numeric" maxlength="6" aria-label="Pincode">
+        <button id="btn-pin" class="primary" data-i18n="findKendra"></button>
+        <button id="btn-loc" class="ghost" data-i18n="useLocation"></button>
       </div>
       <ul id="kendra-list" class="kendras"></ul>
     </section>
 
-    <p class="disclaimer">
-      <b>Not medical advice.</b> SastiDawa only matches medicines with the same active ingredients,
-      strengths and form. Always confirm with your doctor or pharmacist before switching.
-      We do not store your prescription photo.
-    </p>
+    <p class="disclaimer" data-i18n="disclaimer"></p>
   </main>
 
   <script src="config.js"></script>
+  <script src="i18n.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

@@ -13,6 +13,7 @@ body { margin: 0; font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, s
 .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
 .top { background: var(--brand); color: var(--brand-ink); padding: 20px 0 16px; }
 .top h1 { margin: 0; font-size: 28px; letter-spacing: -0.5px; }
+.top .tag { font-size: 15px; }
 .top h1 span { font-weight: 400; }
 .tag { margin: 2px 0 0; opacity: .9; }
 main { padding: 20px 0 40px; }
@@ -61,3 +62,34 @@ td input.qty { width: 70px; }
 .kendras li { padding: 10px 0; border-bottom: 1px solid var(--line); }
 .kendras a { color: var(--brand); }
 .disclaimer { font-size: 13px; color: var(--muted); }
+
+/* ---- MedLens additions ---- */
+.head-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.lang { display: flex; gap: 4px; background: rgba(255,255,255,.15); padding: 4px; border-radius: 10px; }
+.lang button { border: 0; background: transparent; color: var(--brand-ink); padding: 6px 12px; }
+.lang button[aria-pressed="true"] { background: var(--card); color: var(--brand); font-weight: 600; }
+.med-cards { display: grid; gap: 12px; }
+.med-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; }
+.med-card header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.med-card h3 { margin: 0; font-size: 18px; }
+.med-card h4 { margin: 14px 0 0; font-size: 15px; color: var(--brand); }
+.med-card.unknown { color: var(--muted); font-size: 14px; padding: 10px 16px; }
+.med-card dl { margin: 8px 0 0; display: grid; grid-template-columns: minmax(120px, 30%) 1fr; gap: 6px 12px; }
+@media (max-width: 640px) { .med-card dl { grid-template-columns: 1fr; } .med-card dd { margin-bottom: 6px; } }
+.med-card dt { color: var(--muted); font-size: 14px; }
+.med-card dd { margin: 0; }
+.med-card dd ul { margin: 0; padding-left: 18px; }
+.med-card .warn { color: var(--warn); }
+dd.warn { background: var(--warn-bg); padding: 6px 10px; border-radius: 8px; }
+.schedule { margin-top: 10px; padding: 10px; background: var(--accent); border-radius: 10px; }
+.schedule .label { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+.slots { display: flex; gap: 8px; flex-wrap: wrap; }
+.slot { display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 8px; background: var(--card); border: 1px solid var(--line); font-size: 14px; }
+.slot b { font-size: 16px; }
+.slot.off { opacity: .45; }
+button.small { padding: 6px 12px; font-size: 14px; white-space: nowrap; }
+.fix { margin-top: 14px; }
+.fix summary { cursor: pointer; color: var(--brand); }
+.fix-row { display: flex; gap: 8px; margin-bottom: 6px; }
+.fix-row .query { flex: 1; }
+.fix-row .qty { width: 80px; flex: none; }

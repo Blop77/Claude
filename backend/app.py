@@ -1,8 +1,9 @@
-"""AWS Lambda entry point for SastiDawa (API Gateway HTTP API, payload v2).
+"""AWS Lambda entry point for MedLens (API Gateway HTTP API, payload v2).
 
 Routes
     POST /api/extract   {"image_base64": "..."}         -> OCR (Textract) + match
     POST /api/match     {"text": "..."} or {"items": []} -> match only
+    POST /api/speak     {"text": "...", "lang": "hi"|"en"}  -> Polly MP3 (base64)
     GET  /api/kendras?pincode=411038                     -> nearest Kendras
     POST /api/share     {analysis}                       -> saves list, returns id
     GET  /api/share/{id}                                 -> saved list
@@ -20,13 +21,15 @@ import time
 from decimal import Decimal
 from pathlib import Path
 
+from explain import MedicineInfo
 from matcher import Catalog, parse_lines
 
 _DATA_DIR = Path(os.environ.get("DATA_DIR", Path(__file__).resolve().parent / "data"))
 if not _DATA_DIR.exists():  # local dev: data/ lives at repo root
     _DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
-CATALOG = Catalog(json.loads((_DATA_DIR / "catalog.json").read_text()))
+INFO = MedicineInfo(json.loads((_DATA_DIR / "medicine_info.json").read_text()))
+CATALOG = Catalog(json.loads((_DATA_DIR / "catalog.json").read_text()), INFO)
 KENDRAS = json.loads((_DATA_DIR / "kendras.json").read_text())
 
 SHARE_TABLE = os.environ.get("SHARE_TABLE")  # DynamoDB table; unset locally
@@ -35,6 +38,11 @@ MAX_IMAGE_BYTES = 5 * 1024 * 1024  # Textract sync limit for image bytes
 
 _textract = None
 _table = None
+_polly = None
+
+# Amazon Polly voices. Polly has no Marathi voice, so Marathi is text-only.
+POLLY_VOICES = {"hi": ("Kajal", "hi-IN"), "en": ("Kajal", "en-IN")}
+MAX_SPEAK_CHARS = 1500
 
 
 def _get_textract():
@@ -43,6 +51,14 @@ def _get_textract():
         import boto3  # available in the Lambda runtime
         _textract = boto3.client("textract")
     return _textract
+
+
+def _get_polly():
+    global _polly
+    if _polly is None:
+        import boto3
+        _polly = boto3.client("polly")
+    return _polly
 
 
 def _get_table():
@@ -87,8 +103,9 @@ def extract(body: dict) -> tuple[int, dict]:
 def match(body: dict) -> tuple[int, dict]:
     if body.get("items"):
         items = [
-            {"raw": str(i.get("raw") or i.get("query", "")), "query": str(i.get("query", ""))[:120],
-             "units": int(i.get("units") or 30)}
+            {"raw": str(i.get("raw") or i.get("query", ""))[:200], "query": str(i.get("query", ""))[:120],
+             "units": int(i.get("units") or 30),
+             "schedule": _schedule(i.get("schedule")), "days": _int_or_none(i.get("days"))}
             for i in body["items"][:40] if i.get("query")
         ]
     else:
@@ -97,6 +114,26 @@ def match(body: dict) -> tuple[int, dict]:
     if not items:
         return 400, {"error": "No medicines found. Write one medicine per line."}
     return 200, CATALOG.analyse(items)
+
+
+def speak(body: dict) -> tuple[int, dict]:
+    lang = body.get("lang")
+    text = str(body.get("text") or "").strip()
+    if lang not in POLLY_VOICES:
+        return 400, {"error": "Audio is available in English and Hindi only."}
+    if not text:
+        return 400, {"error": "Nothing to read aloud."}
+    if os.environ.get("OCR_DISABLED") == "1":  # local mode: no AWS calls
+        return 503, {"error": "Audio needs the AWS deployment."}
+    voice, code = POLLY_VOICES[lang]
+    try:
+        resp = _get_polly().synthesize_speech(Text=text[:MAX_SPEAK_CHARS], VoiceId=voice, LanguageCode=code,
+                                              Engine="neural", OutputFormat="mp3")
+        audio = resp["AudioStream"].read()
+    except Exception as exc:
+        print(f"polly error: {exc!r}")
+        return 502, {"error": "Could not create audio right now."}
+    return 200, {"audio_base64": base64.b64encode(audio).decode()}
 
 
 def kendras(params: dict) -> tuple[int, dict]:
@@ -163,6 +200,8 @@ def route(method: str, path: str, body: dict, params: dict) -> tuple[int, dict]:
         return extract(body)
     if method == "POST" and path == "/api/match":
         return match(body)
+    if method == "POST" and path == "/api/speak":
+        return speak(body)
     if method == "GET" and path == "/api/kendras":
         return kendras(params)
     if method == "POST" and path == "/api/share":
@@ -171,6 +210,7 @@ def route(method: str, path: str, body: dict, params: dict) -> tuple[int, dict]:
         return share_get(path.rsplit("/", 1)[1])
     if method == "GET" and path == "/api/health":
         return 200, {"ok": True, "sample_data": CATALOG.meta.get("is_sample", False),
+                     "medicines_explained": len(INFO.salts), "info_reviewed": bool(INFO.meta.get("reviewed")),
                      "brands": len(CATALOG.brands), "generics": len(CATALOG.generics)}
     return 404, {"error": "Not found"}
 
@@ -206,6 +246,19 @@ def _km(la1, lo1, la2, lo2) -> float:
     dp, dl = p2 - p1, math.radians(lo2 - lo1)
     a = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
     return 6371 * 2 * math.asin(math.sqrt(a))
+
+
+def _schedule(v):
+    if isinstance(v, list) and len(v) == 3 and all(isinstance(x, int) and 0 <= x <= 2 for x in v):
+        return v
+    return None
+
+
+def _int_or_none(v):
+    try:
+        return int(v) if v is not None else None
+    except (TypeError, ValueError):
+        return None
 
 
 def _decimal(o):

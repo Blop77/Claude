@@ -8,7 +8,7 @@ sys.path.insert(0, str(ROOT / "backend"))
 
 from matcher import Catalog, parse_lines, strength_to_mg, salt_key  # noqa: E402
 
-CATALOG = Catalog(json.loads((ROOT / "data" / "catalog.json").read_text()))
+CATALOG = Catalog(json.loads((ROOT / "data" / "catalog.json").read_text()))  # no explanations
 
 SAMPLE_RX = """Dr. Sample Clinic
 Patient: SAMPLE PATIENT

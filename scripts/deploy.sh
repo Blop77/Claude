@@ -14,7 +14,7 @@ python3 -m unittest discover -s tests
 echo "==> Building Lambda package"
 rm -rf .build && mkdir -p .build/data
 cp backend/*.py .build/
-cp data/catalog.json data/kendras.json .build/data/
+cp data/catalog.json data/kendras.json data/medicine_info.json .build/data/
 
 echo "==> Deploying stack '$STACK' to $REGION"
 sam deploy --template-file infra/template.yaml --stack-name "$STACK" --region "$REGION" \

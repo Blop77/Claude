@@ -1,4 +1,4 @@
-"""Run SastiDawa locally: serves frontend/ and routes /api/* to the Lambda handler.
+"""Run MedLens locally: serves frontend/ and routes /api/* to the Lambda handler.
 
     python3 scripts/dev_server.py            # http://localhost:8000
     USE_TEXTRACT=1 python3 scripts/dev_server.py   # real OCR (needs AWS creds + boto3)
@@ -53,5 +53,5 @@ class Handler(SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
-    print(f"SastiDawa dev server on http://localhost:{port}  (OCR {'ON' if os.environ.get('OCR_DISABLED') != '1' else 'off'})")
+    print(f"MedLens dev server on http://localhost:{port}  (OCR {'ON' if os.environ.get('OCR_DISABLED') != '1' else 'off'})")
     ThreadingHTTPServer(("127.0.0.1", port), Handler).serve_forever()
