@@ -4,6 +4,16 @@
   const $ = (id) => document.getElementById(id);
   const rupee = (n) => "₹" + (n < 10 ? (+n).toFixed(2) : Math.round(n).toLocaleString("en-IN"));
   const AUDIO_LANGS = ["en", "hi"]; // Amazon Polly has no Marathi voice
+  const svg = (d) => `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
+  const ICON = {
+    morning: svg('<path d="M12 2v8"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m8 6 4-4 4 4"/><path d="M16 18a4 4 0 0 0-8 0"/>'),
+    afternoon: svg('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>'),
+    night: svg('<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>'),
+    listen: svg('<path d="M11 4.7a.7.7 0 0 0-1.2-.5L6.4 7.6A1.4 1.4 0 0 1 5.4 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.4a1.4 1.4 0 0 1 1 .4l3.4 3.4a.7.7 0 0 0 1.2-.5z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.4 18.4a9 9 0 0 0 0-12.8"/>'),
+    stop: svg('<rect x="6" y="6" width="12" height="12" rx="2"/>'),
+    warn: svg('<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4M12 17h.01"/>'),
+  };
+  const listenHtml = (playing) => ICON[playing ? "stop" : "listen"] + `<span>${escapeHtml(t(playing ? "stop" : "listen"))}</span>`;
 
   let lang = loadLang();
   let last = null; // last analysis result
@@ -153,6 +163,7 @@
     $("step-explain").hidden = false;
     setStatus("", false, $("share-status"));
     if (scroll) $("step-explain").scrollIntoView({ behavior: "smooth", block: "start" });
+    document.dispatchEvent(new CustomEvent("medlens:render", { detail: { data, scroll } })); // page animations
   }
 
   function renderBanners(data) {
@@ -183,7 +194,7 @@
     const title = r.brand ? r.brand.brand : r.explanations.map((e) => pick(e.name) || e.salt).join(" + ");
     const saltLine = r.explanations.map((e) => `${pick(e.name) || e.salt}${e.strength ? " " + e.strength : ""}`).join(" + ");
     let html = `<header><div><h3>${escapeHtml(title)}</h3><div class="salt">${escapeHtml(saltLine)}</div></div>`;
-    if (AUDIO_LANGS.includes(lang)) html += `<button class="ghost small listen">${escapeHtml(t("listen"))}</button>`;
+    if (AUDIO_LANGS.includes(lang)) html += `<button class="ghost small listen">${listenHtml(false)}</button>`;
     html += `</header>`;
     html += scheduleHtml(r);
     for (const e of r.explanations) {
@@ -193,7 +204,7 @@
         <dt>${escapeHtml(t("uses"))}</dt><dd>${escapeHtml(pick(e.uses))}</dd>
         <dt>${escapeHtml(t("how"))}</dt><dd>${escapeHtml(pick(e.how))}</dd>
         <dt>${escapeHtml(t("sideEffects"))}</dt><dd><ul>${(pick(e.side_effects) || []).map((s) => `<li>${escapeHtml(s)}</li>`).join("")}</ul></dd>
-        <dt class="warn">⚠ ${escapeHtml(t("warning"))}</dt><dd class="warn">${escapeHtml(pick(e.warning))}</dd>
+        <dt class="warn">${ICON.warn}${escapeHtml(t("warning"))}</dt><dd class="warn"><span>${escapeHtml(pick(e.warning))}</span></dd>
       </dl>`;
     }
     card.innerHTML = html;
@@ -205,9 +216,9 @@
   function scheduleHtml(r) {
     let body;
     if (r.schedule) {
-      const slots = [["🌅", t("morning")], ["☀️", t("afternoon")], ["🌙", t("night")]];
+      const slots = [[ICON.morning, t("morning")], [ICON.afternoon, t("afternoon")], [ICON.night, t("night")]];
       body = `<div class="slots">${slots.map(([icon, label], i) =>
-        `<div class="slot ${r.schedule[i] ? "on" : "off"}"><span>${icon}</span>${escapeHtml(label)}<b>${r.schedule[i]}</b></div>`).join("")}</div>`;
+        `<div class="slot ${r.schedule[i] ? "on" : "off"}">${icon}<span>${escapeHtml(label)}</span><b>${r.schedule[i]}</b></div>`).join("")}</div>`;
       if (r.days) body += `<div class="salt">${escapeHtml(t("forDays", r.days))}</div>`;
     } else {
       body = `<div class="salt">${escapeHtml(t("noSchedule"))}</div>`;
@@ -251,6 +262,7 @@
     if (!show) return;
     $("s-brand").textContent = rupee(s.brand_monthly);
     $("s-generic").textContent = rupee(s.generic_monthly);
+    $("step-savings").style.setProperty("--ratio", s.brand_monthly ? s.generic_monthly / s.brand_monthly : 1);
     $("save-line").innerHTML = t("saveLine", rupee(s.monthly_saving), rupee(s.yearly_saving), s.saving_pct, s.matched, s.total);
     const tbody = $("results").querySelector("tbody");
     tbody.innerHTML = "";
@@ -291,7 +303,7 @@
       const { audio_base64 } = await call("/speak", { method: "POST", body: JSON.stringify({ text, lang }) });
       audio = new Audio("data:audio/mpeg;base64," + audio_base64);
       btn.classList.add("playing");
-      btn.textContent = t("stop");
+      btn.innerHTML = listenHtml(true);
       audio.onended = stopAudio;
       await audio.play();
     } catch (e) {
@@ -302,7 +314,7 @@
 
   function stopAudio() {
     if (audio) { audio.pause(); audio = null; }
-    document.querySelectorAll(".listen.playing").forEach((b) => { b.classList.remove("playing"); b.textContent = t("listen"); });
+    document.querySelectorAll(".listen.playing").forEach((b) => { b.classList.remove("playing"); b.innerHTML = listenHtml(false); });
   }
 
   // -------------------------------------------------------------- recheck
@@ -362,6 +374,7 @@
 
   document.querySelectorAll("[data-lang]").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
   $("btn-text").addEventListener("click", () => analyseText($("rx-text").value));
+  $("hero-sample")?.addEventListener("click", () => $("btn-sample").click());
   $("btn-sample").addEventListener("click", () => { $("rx-text").value = SAMPLE_RX; analyseText(SAMPLE_RX); });
   $("photo").addEventListener("change", (e) => analysePhoto(e.target.files[0]));
   $("btn-recheck").addEventListener("click", recheck);
