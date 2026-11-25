@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SastiDawa — same medicine, lower price</title>
+  <meta name="description" content="Find Jan Aushadhi generic medicines with the same salt and strength as your prescription, and see how much you save.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <h1>Sasti<span>Dawa</span></h1>
+      <p class="tag">Same salt. Same strength. Lower price.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="sample-banner" class="banner" hidden></div>
+
+    <!-- Step 1: input -->
+    <section class="card" id="step-input">
+      <h2><span class="num">1</span> Add your prescription</h2>
+      <div class="input-grid">
+        <label class="upload">
+          <input type="file" id="photo" accept="image/*" capture="environment">
+          <strong>📷 Upload a photo</strong>
+          <small>Printed or e-prescriptions work best</small>
+        </label>
+        <div class="or">or</div>
+        <div>
+          <label for="rx-text" class="label">Type medicines, one per line</label>
+          <textarea id="rx-text" rows="5" placeholder="Tab Glycomet 500 1-0-1 x 30 days&#10;Telma 40&#10;Ecosprin 75"></textarea>
+          <div class="row">
+            <button id="btn-text" class="primary">Find generics</button>
+            <button id="btn-sample" class="ghost" type="button">Try a sample prescription</button>
+          </div>
+        </div>
+      </div>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- Step 2: review + results -->
+    <section class="card" id="step-results" hidden>
+      <h2><span class="num">2</span> Check what we read</h2>
+      <p class="hint">Fix any medicine name or monthly quantity, then press <b>Recheck</b>. Rows we couldn't match are listed at the bottom.</p>
+      <div class="table-wrap">
+        <table id="results">
+          <thead><tr>
+            <th>Prescribed</th><th>Qty / month</th><th>Jan Aushadhi equivalent</th><th class="num-col">Saving / month</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <button id="btn-recheck" class="ghost">Recheck</button>
+    </section>
+
+    <!-- Step 3: savings -->
+    <section class="card savings" id="step-savings" hidden>
+      <h2><span class="num">3</span> Your savings</h2>
+      <div class="big">
+        <div><small>Branded</small><b id="s-brand"></b></div>
+        <div class="arrow">→</div>
+        <div><small>Jan Aushadhi</small><b id="s-generic"></b></div>
+      </div>
+      <p class="save-line">You save <b id="s-month"></b> a month — <b id="s-year"></b> a year (<span id="s-pct"></span>)</p>
+      <div class="row">
+        <a id="btn-whatsapp" class="primary" target="_blank" rel="noopener">Share list on WhatsApp</a>
+        <button id="btn-share" class="ghost">Copy share link</button>
+      </div>
+      <p id="share-status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- Step 4: kendras -->
+    <section class="card" id="step-kendra" hidden>
+      <h2><span class="num">4</span> Buy at a Jan Aushadhi Kendra</h2>
+      <div class="row">
+        <input id="pincode" inputmode="numeric" maxlength="6" placeholder="6-digit pincode" aria-label="Pincode">
+        <button id="btn-pin" class="primary">Find Kendras</button>
+        <button id="btn-loc" class="ghost">Use my location</button>
+      </div>
+      <ul id="kendra-list" class="kendras"></ul>
+    </section>
+
+    <p class="disclaimer">
+      <b>Not medical advice.</b> SastiDawa only matches medicines with the same active ingredients,
+      strengths and form. Always confirm with your doctor or pharmacist before switching.
+      We do not store your prescription photo.
+    </p>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

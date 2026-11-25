@@ -1,0 +1,9 @@
+.build/
+.aws-sam/
+samconfig.toml
+__pycache__/
+*.pyc
+.env
+.venv/
+data/skipped_generics.txt
+data/raw/

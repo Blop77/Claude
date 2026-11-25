@@ -1,0 +1,318 @@
+{
+ "meta": {
+  "is_sample": true,
+  "notice": "SAMPLE DATA: salt compositions are real, but every price and Kendra below is a PLACEHOLDER for demonstrating the flow. Run scripts/import_catalog.py with the official PMBJP product list before quoting any saving.",
+  "source": "hand-made sample"
+ },
+ "brands": [
+  {
+   "brand": "Glycomet 500",
+   "salts": [
+    {
+     "name": "metformin",
+     "strength": "500 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 20,
+   "mrp": 30.0
+  },
+  {
+   "brand": "Glycomet GP 1",
+   "salts": [
+    {
+     "name": "glimepiride",
+     "strength": "1 mg"
+    },
+    {
+     "name": "metformin",
+     "strength": "500 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 15,
+   "mrp": 95.0
+  },
+  {
+   "brand": "Telma 40",
+   "salts": [
+    {
+     "name": "telmisartan",
+     "strength": "40 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 30,
+   "mrp": 220.0
+  },
+  {
+   "brand": "Amlong 5",
+   "salts": [
+    {
+     "name": "amlodipine",
+     "strength": "5 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 15,
+   "mrp": 50.0
+  },
+  {
+   "brand": "Atorva 10",
+   "salts": [
+    {
+     "name": "atorvastatin",
+     "strength": "10 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 15,
+   "mrp": 120.0
+  },
+  {
+   "brand": "Thyronorm 50",
+   "salts": [
+    {
+     "name": "levothyroxine",
+     "strength": "50 mcg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 100,
+   "mrp": 180.0
+  },
+  {
+   "brand": "Ecosprin 75",
+   "salts": [
+    {
+     "name": "aspirin",
+     "strength": "75 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 14,
+   "mrp": 5.0
+  },
+  {
+   "brand": "Pan 40",
+   "salts": [
+    {
+     "name": "pantoprazole",
+     "strength": "40 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 15,
+   "mrp": 155.0
+  },
+  {
+   "brand": "Dolo 650",
+   "salts": [
+    {
+     "name": "paracetamol",
+     "strength": "650 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 15,
+   "mrp": 33.0
+  },
+  {
+   "brand": "Azithral 500",
+   "salts": [
+    {
+     "name": "azithromycin",
+     "strength": "500 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 5,
+   "mrp": 120.0
+  },
+  {
+   "brand": "Augmentin 625 Duo",
+   "salts": [
+    {
+     "name": "amoxicillin",
+     "strength": "500 mg"
+    },
+    {
+     "name": "clavulanic acid",
+     "strength": "125 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 10,
+   "mrp": 220.0
+  },
+  {
+   "brand": "Montair LC",
+   "salts": [
+    {
+     "name": "montelukast",
+     "strength": "10 mg"
+    },
+    {
+     "name": "levocetirizine",
+     "strength": "5 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 15,
+   "mrp": 250.0
+  }
+ ],
+ "generics": [
+  {
+   "code": "SAMPLE-001",
+   "name": "Metformin Tablets IP 500 mg",
+   "salts": [
+    {
+     "name": "metformin",
+     "strength": "500 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 20,
+   "mrp": 10.0
+  },
+  {
+   "code": "SAMPLE-002",
+   "name": "Glimepiride 1 mg + Metformin 500 mg Tablets",
+   "salts": [
+    {
+     "name": "metformin",
+     "strength": "500 mg"
+    },
+    {
+     "name": "glimepiride",
+     "strength": "1 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 15,
+   "mrp": 25.0
+  },
+  {
+   "code": "SAMPLE-003",
+   "name": "Telmisartan Tablets IP 40 mg",
+   "salts": [
+    {
+     "name": "telmisartan",
+     "strength": "40 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 30,
+   "mrp": 45.0
+  },
+  {
+   "code": "SAMPLE-004",
+   "name": "Amlodipine Tablets IP 5 mg",
+   "salts": [
+    {
+     "name": "amlodipine",
+     "strength": "5 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 15,
+   "mrp": 8.0
+  },
+  {
+   "code": "SAMPLE-005",
+   "name": "Atorvastatin Tablets IP 10 mg",
+   "salts": [
+    {
+     "name": "atorvastatin",
+     "strength": "10 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 15,
+   "mrp": 20.0
+  },
+  {
+   "code": "SAMPLE-006",
+   "name": "Levothyroxine Tablets IP 50 mcg",
+   "salts": [
+    {
+     "name": "levothyroxine",
+     "strength": "50 mcg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 100,
+   "mrp": 60.0
+  },
+  {
+   "code": "SAMPLE-007",
+   "name": "Aspirin Gastro-resistant Tablets IP 75 mg",
+   "salts": [
+    {
+     "name": "aspirin",
+     "strength": "75 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 14,
+   "mrp": 2.0
+  },
+  {
+   "code": "SAMPLE-008",
+   "name": "Pantoprazole Gastro-resistant Tablets IP 40 mg",
+   "salts": [
+    {
+     "name": "pantoprazole",
+     "strength": "40 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 15,
+   "mrp": 25.0
+  },
+  {
+   "code": "SAMPLE-009",
+   "name": "Paracetamol Tablets IP 650 mg",
+   "salts": [
+    {
+     "name": "paracetamol",
+     "strength": "650 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 15,
+   "mrp": 12.0
+  },
+  {
+   "code": "SAMPLE-010",
+   "name": "Azithromycin Tablets IP 500 mg",
+   "salts": [
+    {
+     "name": "azithromycin",
+     "strength": "500 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 5,
+   "mrp": 35.0
+  },
+  {
+   "code": "SAMPLE-011",
+   "name": "Amoxycillin 500 mg + Clavulanic Acid 125 mg Tablets",
+   "salts": [
+    {
+     "name": "amoxicillin",
+     "strength": "500 mg"
+    },
+    {
+     "name": "clavulanic acid",
+     "strength": "125 mg"
+    }
+   ],
+   "form": "tablet",
+   "pack_units": 10,
+   "mrp": 80.0
+  }
+ ]
+}

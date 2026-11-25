@@ -1,0 +1,40 @@
+{
+ "meta": {
+  "is_sample": true,
+  "notice": "PLACEHOLDER Kendras. Import the official PMBJP Kendra list."
+ },
+ "kendras": [
+  {
+   "id": "SAMPLE-K1",
+   "name": "Sample Jan Aushadhi Kendra 1 (placeholder)",
+   "address": "Placeholder address",
+   "pincode": "411038",
+   "lat": 18.5074,
+   "lon": 73.8077
+  },
+  {
+   "id": "SAMPLE-K2",
+   "name": "Sample Jan Aushadhi Kendra 2 (placeholder)",
+   "address": "Placeholder address",
+   "pincode": "411004",
+   "lat": 18.5167,
+   "lon": 73.8415
+  },
+  {
+   "id": "SAMPLE-K3",
+   "name": "Sample Jan Aushadhi Kendra 3 (placeholder)",
+   "address": "Placeholder address",
+   "pincode": "411001",
+   "lat": 18.5286,
+   "lon": 73.874
+  },
+  {
+   "id": "SAMPLE-K4",
+   "name": "Sample Jan Aushadhi Kendra 4 (placeholder)",
+   "address": "Placeholder address",
+   "pincode": "400076",
+   "lat": 19.1334,
+   "lon": 72.9133
+  }
+ ]
+}
