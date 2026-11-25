@@ -19,6 +19,8 @@ Usage:
 
 Rows that can't be parsed are reported, not guessed.
 """
+from __future__ import annotations
+
 import argparse
 import csv
 import json

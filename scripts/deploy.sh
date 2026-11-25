@@ -30,6 +30,7 @@ aws cloudfront create-invalidation --distribution-id "$DIST" --paths "/*" >/dev/
 
 echo "==> Smoke test"
 sleep 5
-curl -fsS "$URL/api/health" && echo
+if curl -fsS "$URL/api/health"; then echo; else
+  echo "Not reachable yet - CloudFront takes 5-15 min on the first deploy. Retry: curl $URL/api/health"; fi
 echo
-echo "Live at: $URL   (first CloudFront deploy can take ~5 min to go live)"
+echo "Live at: $URL"
