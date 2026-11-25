@@ -5,15 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MedLens — understand your prescription</title>
   <meta name="description" content="Take a photo of a prescription and understand each medicine in Hindi, Marathi or English — and find cheaper Jan Aushadhi equivalents.">
+  <meta name="theme-color" content="#04100b">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2304100b'/%3E%3Ccircle cx='14' cy='14' r='7.5' fill='none' stroke='%233ddc97' stroke-width='2.4'/%3E%3Cpath d='M19.5 19.5l6 6' stroke='%233ddc97' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=JetBrains+Mono:wght@400..600&family=Noto+Sans+Devanagari:wght@400..700&family=Noto+Serif+Devanagari:wght@300..500&display=swap">
   <link rel="stylesheet" href="style.css">
+  <script>
+    // Hide the hero copy until the intro animation is ready (never longer than 2.5 s).
+    document.documentElement.classList.add("preload");
+    setTimeout(() => document.documentElement.classList.remove("preload"), 2500);
+  </script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script type="importmap">
+    { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    } }
+  </script>
 </head>
 <body>
-  <header class="top">
-    <div class="wrap head-row">
-      <div>
-        <h1>Med<span>Lens</span></h1>
-        <p class="tag" data-i18n="tagline"></p>
-      </div>
+  <a class="skip" href="#app">Skip to the app</a>
+
+  <header class="nav">
+    <div class="wrap">
+      <a class="logo" href="#top" aria-label="MedLens, back to top">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="13.5" cy="13.5" r="9.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M20.6 20.6l7 7" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><rect x="8.6" y="11" width="10" height="5" rx="2.5" transform="rotate(-35 13.5 13.5)" fill="#3ddc97"/></svg>
+        <b>Med<span>Lens</span></b>
+      </a>
       <div class="lang" role="group" aria-label="Language">
         <button data-lang="en">English</button>
         <button data-lang="hi">हिन्दी</button>
@@ -22,84 +42,167 @@
     </div>
   </header>
 
-  <main class="wrap">
-    <div id="banners"></div>
+  <section class="hero" id="top">
+    <div id="gl"></div>
+    <div class="wrap hero-inner">
+      <p class="eyebrow">English · हिन्दी · मराठी</p>
+      <h1 data-i18n="heroTitle"></h1>
+      <p class="hero-sub" data-i18n="heroSub"></p>
+      <div class="hero-cta">
+        <a class="primary" href="#step-input">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg>
+          <span data-i18n="ctaScan"></span>
+        </a>
+        <button class="ghost" id="hero-sample" type="button" data-i18n="sample"></button>
+      </div>
+    </div>
+    <aside class="dose-card" aria-hidden="true">
+      <div class="rx"><span>Tab Glycomet 500</span><b>1-0-1</b></div>
+      <div class="dose-row">
+        <div class="on"><i>1</i><span data-i18n="morning"></span></div>
+        <div><i>0</i><span data-i18n="afternoon"></span></div>
+        <div class="on"><i>1</i><span data-i18n="night"></span></div>
+      </div>
+      <div class="dose-foot"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Jan Aushadhi · <b data-i18n="sameSalt"></b></span></div>
+    </aside>
+    <div class="hero-fade"></div>
+    <div class="scroll-cue" aria-hidden="true"></div>
+  </section>
 
-    <!-- Step 1: input -->
-    <section class="card" id="step-input">
-      <h2><span class="num">1</span> <span data-i18n="s1"></span></h2>
-      <div class="input-grid">
-        <label class="upload">
-          <input type="file" id="photo" accept="image/*" capture="environment">
-          <strong data-i18n="upload"></strong>
-          <small data-i18n="uploadHint"></small>
-        </label>
-        <div class="or" data-i18n="or"></div>
+  <section class="stats" aria-labelledby="why">
+    <div class="wrap">
+      <div class="stats-head reveal">
         <div>
-          <label for="rx-text" class="label" data-i18n="typeLabel"></label>
-          <textarea id="rx-text" rows="5" placeholder="Tab Glycomet 500 1-0-1 x 30 days&#10;Telma 40&#10;Ecosprin 75"></textarea>
-          <div class="row">
-            <button id="btn-text" class="primary" data-i18n="go"></button>
-            <button id="btn-sample" class="ghost" type="button" data-i18n="sample"></button>
-          </div>
+          <p class="kicker" data-i18n="whyKicker"></p>
+          <h2 id="why" data-i18n="whyTitle"></h2>
         </div>
       </div>
-      <p id="status" class="status" role="status" aria-live="polite"></p>
-    </section>
-
-    <!-- Step 2: explanations -->
-    <section class="card" id="step-explain" hidden>
-      <h2><span class="num">2</span> <span data-i18n="s2"></span></h2>
-      <div id="med-cards" class="med-cards"></div>
-      <details class="fix">
-        <summary data-i18n="fixTitle"></summary>
-        <p class="hint" data-i18n="fixHint"></p>
-        <div id="fix-list"></div>
-        <button id="btn-recheck" class="ghost" data-i18n="recheck"></button>
-      </details>
-    </section>
-
-    <!-- Step 3: savings -->
-    <section class="card savings" id="step-savings" hidden>
-      <h2><span class="num">3</span> <span data-i18n="s3"></span></h2>
-      <div class="big">
-        <div><small data-i18n="branded"></small><b id="s-brand"></b></div>
-        <div class="arrow">→</div>
-        <div><small>Jan Aushadhi</small><b id="s-generic"></b></div>
+      <div class="stat-grid reveal-stagger">
+        <div class="stat"><b><span data-count="39.4" data-dec="1">39.4</span><small>%</small></b><p data-i18n="statOop"></p></div>
+        <div class="stat"><b>50–<span data-count="80">80</span><small>%</small></b><p data-i18n="statCheap"></p></div>
+        <div class="stat"><b><span data-count="17990">17,990</span></b><p data-i18n="statKendra"></p></div>
       </div>
-      <p class="save-line" id="save-line"></p>
-      <div class="table-wrap">
-        <table id="results">
-          <thead><tr>
-            <th data-i18n="thPrescribed"></th><th data-i18n="thGeneric"></th><th class="num-col" data-i18n="thSaving"></th>
-          </tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-      <div class="row">
-        <a id="btn-whatsapp" class="primary" target="_blank" rel="noopener" data-i18n="whatsapp"></a>
-        <button id="btn-share" class="ghost" data-i18n="copyLink"></button>
-      </div>
-      <p id="share-status" class="status" role="status" aria-live="polite"></p>
-    </section>
+      <p class="sources">Sources: National Health Accounts 2021-22 (MoHFW); Government of India replies in Parliament; Kendra count as of 31 Dec 2025.</p>
+    </div>
+  </section>
 
-    <!-- Step 4: kendras -->
-    <section class="card" id="step-kendra" hidden>
-      <h2><span class="num">4</span> <span data-i18n="s4"></span></h2>
-      <div class="row">
-        <input id="pincode" inputmode="numeric" maxlength="6" aria-label="Pincode">
-        <button id="btn-pin" class="primary" data-i18n="findKendra"></button>
-        <button id="btn-loc" class="ghost" data-i18n="useLocation"></button>
+  <main id="app" class="app" tabindex="-1">
+    <div class="wrap">
+      <div class="app-head reveal">
+        <p class="kicker" data-i18n="appKicker"></p>
+        <h2 data-i18n="tagline"></h2>
       </div>
-      <ul id="kendra-list" class="kendras"></ul>
-    </section>
 
-    <p class="disclaimer" data-i18n="disclaimer"></p>
-    <p class="disclaimer"><a href="submission.html">About this project (Campus to Cloud Hackathon)</a></p>
+      <div id="banners"></div>
+
+      <!-- Step 1: input -->
+      <section class="card reveal" id="step-input">
+        <h2><span class="num">01</span> <span data-i18n="s1"></span></h2>
+        <div class="input-grid">
+          <label class="upload">
+            <input type="file" id="photo" accept="image/*" capture="environment">
+            <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
+            <span class="scan" aria-hidden="true"></span>
+            <span class="cam" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></span>
+            <strong data-i18n="upload"></strong>
+            <small data-i18n="uploadHint"></small>
+          </label>
+          <div class="or" data-i18n="or"></div>
+          <div>
+            <label for="rx-text" class="label" data-i18n="typeLabel"></label>
+            <textarea id="rx-text" rows="6" placeholder="Tab Glycomet 500 1-0-1 x 30 days&#10;Telma 40&#10;Ecosprin 75"></textarea>
+            <div class="row">
+              <button id="btn-text" class="primary" data-i18n="go"></button>
+              <button id="btn-sample" class="ghost" type="button" data-i18n="sample"></button>
+            </div>
+          </div>
+        </div>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+      </section>
+
+      <!-- Step 2: explanations -->
+      <section class="card" id="step-explain" hidden>
+        <h2><span class="num">02</span> <span data-i18n="s2"></span></h2>
+        <div id="med-cards" class="med-cards"></div>
+        <details class="fix">
+          <summary data-i18n="fixTitle"></summary>
+          <p class="hint" data-i18n="fixHint"></p>
+          <div id="fix-list"></div>
+          <button id="btn-recheck" class="ghost" data-i18n="recheck"></button>
+        </details>
+      </section>
+
+      <!-- Step 3: savings -->
+      <section class="card savings" id="step-savings" hidden>
+        <h2><span class="num">03</span> <span data-i18n="s3"></span></h2>
+        <div class="big">
+          <div><small data-i18n="branded"></small><b id="s-brand"></b></div>
+          <div class="arrow" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+          <div><small>Jan Aushadhi</small><b id="s-generic"></b></div>
+        </div>
+        <div class="bars" aria-hidden="true"><span class="b1"></span><span class="b2"></span></div>
+        <p class="save-line" id="save-line"></p>
+        <div class="table-wrap">
+          <table id="results">
+            <thead><tr>
+              <th data-i18n="thPrescribed"></th><th data-i18n="thGeneric"></th><th class="num-col" data-i18n="thSaving"></th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="row">
+          <a id="btn-whatsapp" class="primary" target="_blank" rel="noopener" data-i18n="whatsapp"></a>
+          <button id="btn-share" class="ghost" data-i18n="copyLink"></button>
+        </div>
+        <p id="share-status" class="status" role="status" aria-live="polite"></p>
+      </section>
+
+      <!-- Step 4: kendras -->
+      <section class="card" id="step-kendra" hidden>
+        <h2><span class="num">04</span> <span data-i18n="s4"></span></h2>
+        <div class="row">
+          <input id="pincode" inputmode="numeric" maxlength="6" aria-label="Pincode" autocomplete="postal-code">
+          <button id="btn-pin" class="primary" data-i18n="findKendra"></button>
+          <button id="btn-loc" class="ghost" data-i18n="useLocation"></button>
+        </div>
+        <ul id="kendra-list" class="kendras"></ul>
+      </section>
+    </div>
   </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <p class="disclaimer" data-i18n="disclaimer"></p>
+      <p class="disclaimer"><a href="submission.html">About this project — Campus to Cloud Hackathon</a></p>
+    </div>
+  </footer>
 
   <script src="config.js"></script>
   <script src="i18n.js"></script>
   <script src="app.js"></script>
+  <script defer src="lens.js"></script>
+  <script type="module">
+    // Result animations (purely visual; app.js works without them).
+    const { gsap } = window;
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const rupee = (n) => "₹" + (n < 10 ? (+n).toFixed(2) : Math.round(n).toLocaleString("en-IN"));
+    let saveTl;
+    document.addEventListener("medlens:render", ({ detail: { data, scroll } }) => {
+      if (!gsap || reduce || !scroll || document.documentElement.classList.contains("lite")) return; // phones stay static
+      gsap.from("#step-explain", { y: 40, opacity: 0, duration: 1, ease: "expo.out", clearProps: "transform,opacity" });
+      gsap.from("#med-cards > *", { y: 36, opacity: 0, duration: 0.9, stagger: 0.09, delay: 0.15, ease: "expo.out", clearProps: "transform,opacity" });
+      gsap.from("#med-cards .slot.on", { scale: 0.8, duration: 0.7, stagger: 0.05, delay: 0.4, ease: "back.out(2.4)", clearProps: "transform" });
+      const s = data.summary;
+      if (!s.matched) return;
+      saveTl?.scrollTrigger?.kill(); saveTl?.kill();
+      const a = { b: 0, g: 0 };
+      saveTl = gsap.timeline({ scrollTrigger: window.ScrollTrigger && { trigger: "#step-savings", start: "top 80%", once: true } })
+        .from("#step-savings .bars span", { scaleX: 0, duration: 1.6, stagger: 0.18, ease: "expo.out" }, 0)
+        .to(a, { b: s.brand_monthly, g: s.generic_monthly, duration: 1.6, ease: "power3.out", onUpdate: () => {
+          document.getElementById("s-brand").textContent = rupee(a.b);
+          document.getElementById("s-generic").textContent = rupee(a.g);
+        } }, 0);
+    });
+  </script>
 </body>
 </html>

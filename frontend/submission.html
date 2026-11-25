@@ -5,126 +5,300 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MedLens — Campus to Cloud submission</title>
   <meta name="description" content="MedLens: understand your prescription in Hindi, Marathi or English, and save with Jan Aushadhi. Round 1 submission, Campus to Cloud Hackathon, Techfest IIT Bombay.">
+  <meta name="theme-color" content="#04100b">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2304100b'/%3E%3Ccircle cx='14' cy='14' r='7.5' fill='none' stroke='%233ddc97' stroke-width='2.4'/%3E%3Cpath d='M19.5 19.5l6 6' stroke='%233ddc97' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=JetBrains+Mono:wght@400..600&family=Noto+Sans+Devanagari:wght@400..700&family=Noto+Serif+Devanagari:wght@300..500&display=swap">
   <link rel="stylesheet" href="style.css">
   <style>
-    .doc h2 { margin-top: 0; }
-    .doc h3 { margin: 18px 0 6px; font-size: 16px; }
-    .doc p, .doc li { max-width: 72ch; }
-    .links { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
-    .links a { display: block; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; color: var(--ink); background: var(--card); }
-    .links a b { display: block; color: var(--brand); }
-    .links a small { color: var(--muted); word-break: break-all; }
-    .todo { background: #ffe066; color: #000; padding: 0 4px; border-radius: 4px; font-weight: 600; }
-    table.svc td:first-child { white-space: nowrap; font-weight: 600; }
-    .flow { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px; overflow-x: auto; white-space: pre; }
-    .status-live { color: var(--brand); font-weight: 600; }
-    .status-limited { color: var(--warn); font-weight: 600; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+    .chip { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 99px; font-size: 14px; color: var(--hero-muted); background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .12); backdrop-filter: blur(8px); }
+    .chip b { color: var(--hero-ink); }
+    .nav-cta { min-height: 40px; padding: 0 18px; font-size: 14.5px; background: var(--glow); color: #03130c; }
+    .nav.solid .nav-cta { background: var(--brand); color: var(--brand-ink); }
+
+    /* quick links */
+    .links-band { position: relative; z-index: 3; padding-top: 72px; }
+    .links { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    @media (max-width: 900px) { .links { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .links { grid-template-columns: 1fr; } }
+    .links a { position: relative; display: grid; gap: 6px; padding: 22px; min-height: 150px; align-content: end; border-radius: 20px; text-decoration: none; color: var(--ink); background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow-lg); overflow: hidden; transition: translate .35s var(--ease), border-color .25s; }
+    .links a:hover { translate: 0 -4px; border-color: var(--brand); } /* translate, not transform: GSAP owns transform for the entrance */
+    .links a .ic { position: absolute; top: 20px; left: 20px; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; background: var(--accent); color: var(--brand); }
+    .links a .go { position: absolute; top: 22px; right: 20px; color: var(--muted); transition: transform .3s var(--ease), color .2s; }
+    .links a:hover .go { transform: translate(3px, -3px); color: var(--brand); }
+    .links a b { font: 500 21px/1.2 var(--display); }
+    .links a small { color: var(--muted); font-size: 14px; overflow-wrap: anywhere; }
+    .team { display: flex; flex-wrap: wrap; gap: 10px 24px; align-items: center; margin: 28px 0 0; padding: 18px 22px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); font-size: 15px; color: var(--muted); }
+    .team b { color: var(--ink); font-family: var(--display); font-weight: 500; font-size: 19px; }
+    .team code { background: var(--bg); }
+
+    /* document sections */
+    .doc-sec { padding: 104px 0 24px; scroll-margin-top: 40px; }
+    .doc-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 48px; }
+    @media (max-width: 900px) { .doc-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; } }
+    .sec-label { position: sticky; top: 100px; align-self: start; }
+    .sec-label .n { display: block; font: 300 88px/0.9 var(--display); letter-spacing: -.05em; color: var(--brand); }
+    .sec-label h2 { font-size: 34px; margin: 10px 0 0; }
+    @media (max-width: 900px) { .sec-label { position: static; display: flex; align-items: baseline; gap: 16px; } .sec-label .n { font-size: 56px; } }
+    .prose { max-width: 74ch; }
+    .prose h3 { font-size: clamp(24px, 2.6vw, 30px); margin: 48px 0 14px; }
+    .prose h3:first-child { margin-top: 0; }
+    .prose p, .prose li { color: color-mix(in srgb, var(--ink) 86%, var(--muted)); }
+    .prose ul { padding-left: 0; list-style: none; display: grid; gap: 10px; }
+    .prose li { position: relative; padding-left: 26px; }
+    .prose li::before { content: ""; position: absolute; left: 4px; top: .62em; width: 8px; height: 8px; border-radius: 3px; background: var(--brand); rotate: 45deg; }
+    .prose b { color: var(--ink); }
+    .lead { font: 400 clamp(20px, 2vw, 24px)/1.5 var(--display); letter-spacing: -.01em; color: var(--ink) !important; }
+    .todo { background: #ffe066; color: #000; padding: 1px 6px; border-radius: 6px; font-weight: 700; font-size: .92em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+
+    .mini-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 28px 0; }
+    @media (max-width: 640px) { .mini-stats { grid-template-columns: 1fr; } }
+    .mini-stats div { padding: 22px; border-radius: 18px; background: var(--card); border: 1px solid var(--line); }
+    .mini-stats b { display: block; font: 300 52px/1 var(--display); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+    .mini-stats b small { font-size: .5em; color: var(--brand); }
+    .mini-stats div > span { display: block; margin-top: 10px; font-size: 14.5px; color: var(--muted); }
+
+    .trust { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 0; padding: 0; list-style: none; }
+    @media (max-width: 640px) { .trust { grid-template-columns: 1fr; } }
+    .prose .trust li { padding: 22px 22px 22px 22px; border-radius: 18px; background: var(--card); border: 1px solid var(--line); }
+    .prose .trust li::before { display: none; }
+    .trust .ic { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--accent); color: var(--brand); margin-bottom: 14px; }
+    .note { padding: 16px 20px; border-radius: 16px; background: var(--accent); color: var(--ink) !important; border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent); }
+
+    /* architecture terminal */
+    .term { border-radius: 20px; overflow: hidden; background: #04100b; border: 1px solid #17352a; box-shadow: var(--shadow-lg), 0 0 80px -40px rgba(61, 220, 151, .5); margin-bottom: 28px; }
+    .term-bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid #17352a; font: 500 12.5px/1 var(--mono); color: #7f998d; }
+    .term-bar i { width: 11px; height: 11px; border-radius: 50%; background: #23463a; }
+    .term-bar i:nth-child(1) { background: #e8664f; } .term-bar i:nth-child(2) { background: #f2b34a; } .term-bar i:nth-child(3) { background: #3ddc97; }
+    .term-bar span { margin-left: 10px; }
+    .flow { margin: 0; padding: 24px; overflow-x: auto; font: 12.5px/1.75 var(--mono); color: #7f998d; white-space: pre; }
+    .flow .s { color: #eaf5ef; font-weight: 600; }
+    .flow .a { color: #3ddc97; }
+    table.svc td:first-child { white-space: nowrap; font-weight: 700; }
+    @media (max-width: 640px) { table.svc td:first-child { white-space: normal; width: 38%; } }
+    .status-live, .status-limited { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; }
+    .status-live { color: var(--brand); }
+    .status-limited { color: var(--warn); }
+    .state { display: grid; gap: 10px; }
+    .prose .state li { padding: 16px 18px 16px 18px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); }
+    .prose .state li::before { display: none; }
+    .next { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    @media (max-width: 640px) { .next { grid-template-columns: 1fr; } }
+    .prose .next li { padding: 20px; border-radius: 16px; border: 1px dashed var(--line-strong); }
+    .prose .next li::before { display: none; }
+    .prose .next li span { display: block; font: 500 12px/1 var(--mono); color: var(--brand); letter-spacing: .08em; margin-bottom: 10px; }
+
+    .video { display: grid; place-items: center; gap: 14px; aspect-ratio: 16 / 9; border-radius: 22px; text-align: center; padding: 24px; color: var(--hero-ink); background: radial-gradient(60% 70% at 50% 40%, rgba(61, 220, 151, .25), transparent 70%), #04100b; border: 1px solid #17352a; }
+    .video .play { margin: 0 auto 6px; display: grid; place-items: center; width: 84px; height: 84px; border-radius: 50%; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .2); }
+    .video .play svg { width: 32px; height: 32px; fill: var(--glow); stroke: none; margin-left: 4px; }
   </style>
+  <script>
+    document.documentElement.classList.add("preload");
+    setTimeout(() => document.documentElement.classList.remove("preload"), 2500);
+  </script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script type="importmap">
+    { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    } }
+  </script>
 </head>
 <body>
-  <header class="top">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav">
     <div class="wrap">
-      <h1>Med<span>Lens</span></h1>
-      <p class="tag">Understand your prescription in your own language. · Campus to Cloud Hackathon, Techfest IIT Bombay — Round 1</p>
+      <a class="logo" href="#top" aria-label="MedLens, back to top">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="13.5" cy="13.5" r="9.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M20.6 20.6l7 7" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><rect x="8.6" y="11" width="10" height="5" rx="2.5" transform="rotate(-35 13.5 13.5)" fill="#3ddc97"/></svg>
+        <b>Med<span>Lens</span></b>
+      </a>
+      <a class="primary nav-cta" href="./">Open the app</a>
     </div>
   </header>
 
-  <main class="wrap doc">
-    <section class="card">
-      <div class="links">
-        <a href="./" target="_blank" rel="noopener"><b>▶ Live prototype</b><small>d13yy3mzvdlmrz.cloudfront.net</small></a>
-        <a href="https://github.com/Blop77/Claude" target="_blank" rel="noopener"><b>⌨ Code repository</b><small>github.com/Blop77/Claude</small></a>
-        <a href="#video"><b>🎬 Demo video (&lt; 3 min)</b><small><span class="todo">TODO: YouTube link</span></small></a>
-        <a href="#build"><b>☁ Build summary</b><small>AWS services used</small></a>
+  <section class="hero" id="top">
+    <div id="gl"></div>
+    <div class="wrap hero-inner">
+      <p class="eyebrow">Campus to Cloud · Techfest, IIT Bombay · Round 1</p>
+      <h1>Your prescription, <em>finally clear.</em></h1>
+      <p class="hero-sub">Understand your prescription in your own language. MedLens explains every medicine in English, हिन्दी or मराठी, and finds the Jan Aushadhi equivalent with the same salt, strength and form.</p>
+      <div class="hero-cta">
+        <a class="primary" href="./" target="_blank" rel="noopener">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3v18l15-9z"/></svg>Live prototype
+        </a>
+        <a class="ghost" href="#build">Build summary</a>
       </div>
-      <p class="salt"><b>Team Nebula Nomads</b> · Team ID TM-9890B209505 · Ishaan Singh, Akanksha Singh, Faaz Khan, Arnav Mankawade</p>
+    </div>
+    <aside class="dose-card" aria-hidden="true">
+      <div class="rx"><span>Tab Glycomet 500</span><b>1-0-1</b></div>
+      <div class="dose-row">
+        <div class="on"><i>1</i><span>Morning</span></div>
+        <div><i>0</i><span>Afternoon</span></div>
+        <div class="on"><i>1</i><span>Night</span></div>
+      </div>
+      <div class="dose-foot"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Jan Aushadhi · <b>same salt &amp; strength</b></span></div>
+    </aside>
+    <div class="hero-fade"></div>
+    <div class="scroll-cue" aria-hidden="true"></div>
+  </section>
+
+  <main id="main" tabindex="-1">
+    <div class="wrap links-band">
+      <div class="links reveal-stagger">
+        <a href="./" target="_blank" rel="noopener">
+          <span class="ic"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3v18l15-9z"/></svg></span>
+          <svg class="icon go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+          <b>Live prototype</b><small>d13yy3mzvdlmrz.cloudfront.net</small>
+        </a>
+        <a href="https://github.com/Blop77/Claude" target="_blank" rel="noopener">
+          <span class="ic"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg></span>
+          <svg class="icon go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+          <b>Code repository</b><small>github.com/Blop77/Claude</small>
+        </a>
+        <a href="#video">
+          <span class="ic"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="15" height="14" rx="2"/><path d="m17 10 5-3v10l-5-3"/></svg></span>
+          <svg class="icon go" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          <b>Demo video (&lt; 3 min)</b><small><span class="todo">TODO: YouTube link</span></small>
+        </a>
+        <a href="#build">
+          <span class="ic"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></span>
+          <svg class="icon go" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          <b>Build summary</b><small>AWS services used</small>
+        </a>
+      </div>
+      <p class="team reveal"><b>Team Nebula Nomads</b><span>Team ID <code>TM-9890B209505</code></span><span>Ishaan Singh, Akanksha Singh, Faaz Khan, Arnav Mankawade</span></p>
+    </div>
+
+    <!-- 1. Idea brief -->
+    <section class="doc-sec" id="brief">
+      <div class="wrap doc-grid">
+        <div class="sec-label"><span class="n">01</span><h2>Idea brief</h2></div>
+        <div class="prose">
+          <div class="reveal">
+            <h3>The problem</h3>
+            <p class="lead">A patient leaves a clinic with a prescription in English and medical shorthand — <code>Tab Telma 40 1-0-0</code>.</p>
+            <p>If they read Hindi or Marathi more comfortably than English, they depend on a pharmacist or relative to know
+              what each medicine is for and when to take it. They also usually buy the branded medicine on the slip, even when
+              a Jan Aushadhi generic with the same salt costs far less.</p>
+          </div>
+          <div class="mini-stats reveal-stagger" aria-hidden="true">
+            <div><b><span data-count="39.4" data-dec="1">39.4</span><small>%</small></b><span>of health spending paid out of pocket</span></div>
+            <div><b>50–<span data-count="80">80</span><small>%</small></b><span>below leading brands</span></div>
+            <div><b><span data-count="17990">17,990</span></b><span>Kendras open</span></div>
+          </div>
+          <ul class="reveal">
+            <li>Households paid <b>39.4% of India's total health expenditure out of pocket</b> in 2021-22 — National Health Accounts 2021-22, MoHFW.</li>
+            <li>Jan Aushadhi medicines are priced <b>50–80% below leading brands</b>, and <b>17,990 Kendras</b> were open by 31 Dec 2025 — Government replies in Parliament.</li>
+            <li><span class="todo">TODO: one sourced statistic on English literacy / prescription understanding, or a real story from the team</span></li>
+          </ul>
+
+          <div class="reveal">
+            <h3>Who it's for</h3>
+            <p>Patients and caregivers more comfortable in Hindi or Marathi than English — especially people on long-term
+              medicines for diabetes, blood pressure, thyroid or cholesterol.</p>
+          </div>
+
+          <div class="reveal">
+            <h3>The solution</h3>
+            <p>Take a photo of a prescription (or type it). For every medicine MedLens shows, in <b>English, हिन्दी or मराठी</b>:</p>
+            <ul>
+              <li>what it's for, how to take it, common side effects and one key warning;</li>
+              <li>when to take it — <code>1-0-1 x 30 days</code> becomes a morning / afternoon / night chart;</li>
+              <li>an option to <b>hear it read aloud</b> in Hindi or English, for people who find reading hard.</li>
+            </ul>
+            <p>It then finds the <b>Jan Aushadhi medicine with the same salt, strength and form</b>, shows the monthly saving and the
+              nearest Kendra, and makes a WhatsApp list to show at the counter.</p>
+          </div>
+
+          <h3 class="reveal">Why it can be trusted</h3>
+          <ul class="trust reveal-stagger">
+            <li><span class="ic"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></span>Explanations come from a <b>fixed reference</b> written per active ingredient — <b>no AI-generated medical text</b>.
+              Review status: <span class="todo">TODO: "reviewed by pharmacist NAME" or "not yet reviewed" (the app shows a banner until reviewed)</span></li>
+            <li><span class="ic"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Generic matching is exact: every salt, strength and dosage form must match; sustained-release is never swapped for normal release.</li>
+            <li><span class="ic"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg></span>Anything uncertain — an unreadable line, a dose written without a unit — is shown as "ask your pharmacist", never guessed.</li>
+            <li><span class="ic"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>Prescription photos are processed in memory and not stored.</li>
+          </ul>
+          <p class="note reveal">MedLens explains; it does not replace a doctor or pharmacist, and the app says so on every screen.</p>
+        </div>
+      </div>
     </section>
 
-    <section class="card" id="brief">
-      <h2>1. Idea brief</h2>
+    <!-- 2. Build summary -->
+    <section class="doc-sec" id="build">
+      <div class="wrap doc-grid">
+        <div class="sec-label"><span class="n">02</span><h2>Build summary</h2></div>
+        <div class="prose">
+          <div class="term reveal" role="img" aria-label="Architecture: phone browser to CloudFront; CloudFront serves the static app from S3 and routes /api/* through API Gateway to a Python Lambda, which calls Amazon Polly, Amazon Textract and DynamoDB.">
+            <div class="term-bar" aria-hidden="true"><i></i><i></i><i></i><span>architecture</span></div>
+<pre class="flow" aria-hidden="true"><span class="s">Phone browser</span> <span class="a">──</span> <span class="s">CloudFront</span> <span class="a">──┬──</span> <span class="s">S3</span> (static web app)
+                              <span class="a">└──</span> /api/* <span class="a">──</span> <span class="s">API Gateway</span> (HTTP API, rate-limited)
+                                              <span class="a">└──</span> <span class="s">Lambda</span> (Python 3.12)
+                                                    <span class="a">├──</span> <span class="s">Amazon Polly</span>    (Hindi / English audio)
+                                                    <span class="a">├──</span> <span class="s">Amazon Textract</span> (photo → text)
+                                                    <span class="a">└──</span> <span class="s">DynamoDB</span>        (share links, 30-day TTL)</pre>
+          </div>
 
-      <h3>The problem</h3>
-      <p>A patient leaves a clinic with a prescription in English and medical shorthand — <code>Tab Telma 40 1-0-0</code>.
-        If they read Hindi or Marathi more comfortably than English, they depend on a pharmacist or relative to know
-        what each medicine is for and when to take it. They also usually buy the branded medicine on the slip, even when
-        a Jan Aushadhi generic with the same salt costs far less.</p>
-      <ul>
-        <li>Households paid <b>39.4% of India's total health expenditure out of pocket</b> in 2021-22 — National Health Accounts 2021-22, MoHFW.</li>
-        <li>Jan Aushadhi medicines are priced <b>50–80% below leading brands</b>, and <b>17,990 Kendras</b> were open by 31 Dec 2025 — Government replies in Parliament.</li>
-        <li><span class="todo">TODO: one sourced statistic on English literacy / prescription understanding, or a real story from the team</span></li>
-      </ul>
+          <div class="table-wrap reveal">
+            <table class="svc">
+              <thead><tr><th>AWS service</th><th>What it does in MedLens</th></tr></thead>
+              <tbody>
+                <tr><td>AWS Lambda</td><td>Parses medicines and dosage, looks up explanations, matches Jan Aushadhi generics, finds Kendras</td></tr>
+                <tr><td>Amazon Polly</td><td>Reads explanations aloud with a neural Hindi / Indian-English voice <span class="status-live">● live</span></td></tr>
+                <tr><td>Amazon Textract</td><td>Reads printed prescription photos. <span class="todo">TODO: update after AWS Support reply</span> —
+                  until enabled on our account, photos are read on the phone with Tesseract.js and the app labels it "Read on this device".</td></tr>
+                <tr><td>Amazon API Gateway</td><td>Public HTTP API with throttling to stay inside the Free Tier</td></tr>
+                <tr><td>Amazon DynamoDB</td><td>Shareable medicine lists that auto-delete after 30 days (TTL)</td></tr>
+                <tr><td>Amazon S3 + CloudFront</td><td>Hosts the mobile-friendly web app and this page over HTTPS</td></tr>
+                <tr><td>CloudWatch Logs</td><td>Function logs, 7-day retention</td></tr>
+                <tr><td>AWS SAM / CloudFormation</td><td>The whole stack is one template, deployed with one script</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="salt reveal">Region: stack in <span class="todo">TODO: eu-north-1 now / ap-south-1 if moved</span>; Polly and Textract are called in ap-south-1 (Mumbai). All on the AWS Free plan.</p>
 
-      <h3>Who it's for</h3>
-      <p>Patients and caregivers more comfortable in Hindi or Marathi than English — especially people on long-term
-        medicines for diabetes, blood pressure, thyroid or cholesterol.</p>
+          <h3 class="reveal">What is live vs. limited</h3>
+          <ul class="state reveal-stagger">
+            <li><span class="status-live">Live:</span> photo or typed prescription → medicine identification → explanation in 3 languages → audio → Jan Aushadhi match → savings → Kendras → share.</li>
+            <li><span class="status-limited">Limited:</span> 14 active ingredients explained so far; tablets and capsules only; handwriting reads poorly (users can type or correct); no Marathi audio (Polly has no Marathi voice).</li>
+            <li><span class="status-limited">Data:</span> <span class="todo">TODO: "generic prices from the official PMBJP product list; brand MRPs from …" — until imported the app shows a SAMPLE DATA banner</span></li>
+          </ul>
 
-      <h3>The solution</h3>
-      <p>Take a photo of a prescription (or type it). For every medicine MedLens shows, in <b>English, हिन्दी or मराठी</b>:</p>
-      <ul>
-        <li>what it's for, how to take it, common side effects and one key warning;</li>
-        <li>when to take it — <code>1-0-1 x 30 days</code> becomes a morning / afternoon / night chart;</li>
-        <li>an option to <b>hear it read aloud</b> in Hindi or English, for people who find reading hard.</li>
-      </ul>
-      <p>It then finds the <b>Jan Aushadhi medicine with the same salt, strength and form</b>, shows the monthly saving and the
-        nearest Kendra, and makes a WhatsApp list to show at the counter.</p>
-
-      <h3>Why it can be trusted</h3>
-      <ul>
-        <li>Explanations come from a <b>fixed reference</b> written per active ingredient — <b>no AI-generated medical text</b>.
-          Review status: <span class="todo">TODO: "reviewed by pharmacist NAME" or "not yet reviewed" (the app shows a banner until reviewed)</span></li>
-        <li>Generic matching is exact: every salt, strength and dosage form must match; sustained-release is never swapped for normal release.</li>
-        <li>Anything uncertain — an unreadable line, a dose written without a unit — is shown as "ask your pharmacist", never guessed.</li>
-        <li>Prescription photos are processed in memory and not stored.</li>
-      </ul>
-      <p class="salt">MedLens explains; it does not replace a doctor or pharmacist, and the app says so on every screen.</p>
+          <h3 class="reveal">What's next</h3>
+          <ul class="next reveal-stagger">
+            <li><span>NEXT · 01</span>More medicines and languages; pharmacist review workflow for the reference</li>
+            <li><span>NEXT · 02</span>Dosage reminders from the parsed schedule</li>
+            <li><span>NEXT · 03</span>Handwriting support</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <section class="card" id="build">
-      <h2>2. Build summary</h2>
-      <div class="flow">Phone browser ── CloudFront ──┬── S3 (static web app)
-                              └── /api/* ── API Gateway (HTTP API, rate-limited)
-                                              └── Lambda (Python 3.12)
-                                                    ├── Amazon Polly    (Hindi / English audio)
-                                                    ├── Amazon Textract (photo → text)
-                                                    └── DynamoDB        (share links, 30-day TTL)</div>
-
-      <table class="svc">
-        <thead><tr><th>AWS service</th><th>What it does in MedLens</th></tr></thead>
-        <tbody>
-          <tr><td>AWS Lambda</td><td>Parses medicines and dosage, looks up explanations, matches Jan Aushadhi generics, finds Kendras</td></tr>
-          <tr><td>Amazon Polly</td><td>Reads explanations aloud with a neural Hindi / Indian-English voice <span class="status-live">● live</span></td></tr>
-          <tr><td>Amazon Textract</td><td>Reads printed prescription photos. <span class="todo">TODO: update after AWS Support reply</span> —
-            until enabled on our account, photos are read on the phone with Tesseract.js and the app labels it "Read on this device".</td></tr>
-          <tr><td>Amazon API Gateway</td><td>Public HTTP API with throttling to stay inside the Free Tier</td></tr>
-          <tr><td>Amazon DynamoDB</td><td>Shareable medicine lists that auto-delete after 30 days (TTL)</td></tr>
-          <tr><td>Amazon S3 + CloudFront</td><td>Hosts the mobile-friendly web app and this page over HTTPS</td></tr>
-          <tr><td>CloudWatch Logs</td><td>Function logs, 7-day retention</td></tr>
-          <tr><td>AWS SAM / CloudFormation</td><td>The whole stack is one template, deployed with one script</td></tr>
-        </tbody>
-      </table>
-      <p class="salt">Region: stack in <span class="todo">TODO: eu-north-1 now / ap-south-1 if moved</span>; Polly and Textract are called in ap-south-1 (Mumbai). All on the AWS Free plan.</p>
-
-      <h3>What is live vs. limited</h3>
-      <ul>
-        <li><span class="status-live">Live:</span> photo or typed prescription → medicine identification → explanation in 3 languages → audio → Jan Aushadhi match → savings → Kendras → share.</li>
-        <li><span class="status-limited">Limited:</span> 14 active ingredients explained so far; tablets and capsules only; handwriting reads poorly (users can type or correct); no Marathi audio (Polly has no Marathi voice).</li>
-        <li><span class="status-limited">Data:</span> <span class="todo">TODO: "generic prices from the official PMBJP product list; brand MRPs from …" — until imported the app shows a SAMPLE DATA banner</span></li>
-      </ul>
-
-      <h3>What's next</h3>
-      <ul>
-        <li>More medicines and languages; pharmacist review workflow for the reference</li>
-        <li>Dosage reminders from the parsed schedule</li>
-        <li>Handwriting support</li>
-      </ul>
+    <!-- 3. Demo video -->
+    <section class="doc-sec" id="video">
+      <div class="wrap doc-grid">
+        <div class="sec-label"><span class="n">03</span><h2>Demo video</h2></div>
+        <div class="prose">
+          <div class="video reveal">
+            <div>
+              <div class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3v18l15-9z"/></svg></div>
+              <p><span class="todo">TODO: YouTube (unlisted) link, under 3 minutes</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
-
-    <section class="card" id="video">
-      <h2>3. Demo video</h2>
-      <p><span class="todo">TODO: YouTube (unlisted) link, under 3 minutes</span></p>
-    </section>
-
-    <p class="disclaimer"><b>Not medical advice.</b> MedLens explains medicines in simple words and suggests generic equivalents with the same active ingredients; users are told to confirm with their doctor or pharmacist.</p>
   </main>
+
+  <footer class="foot" style="margin-top: 96px">
+    <div class="wrap">
+      <p class="disclaimer"><b>Not medical advice.</b> MedLens explains medicines in simple words and suggests generic equivalents with the same active ingredients; users are told to confirm with their doctor or pharmacist.</p>
+    </div>
+  </footer>
+
+  <script defer src="lens.js"></script>
 </body>
 </html>
