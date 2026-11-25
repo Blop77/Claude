@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MedLens — Campus to Cloud submission</title>
+  <meta name="description" content="MedLens: understand your prescription in Hindi, Marathi or English, and save with Jan Aushadhi. Round 1 submission, Campus to Cloud Hackathon, Techfest IIT Bombay.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .doc h2 { margin-top: 0; }
+    .doc h3 { margin: 18px 0 6px; font-size: 16px; }
+    .doc p, .doc li { max-width: 72ch; }
+    .links { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+    .links a { display: block; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; color: var(--ink); background: var(--card); }
+    .links a b { display: block; color: var(--brand); }
+    .links a small { color: var(--muted); word-break: break-all; }
+    .todo { background: #ffe066; color: #000; padding: 0 4px; border-radius: 4px; font-weight: 600; }
+    table.svc td:first-child { white-space: nowrap; font-weight: 600; }
+    .flow { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px; overflow-x: auto; white-space: pre; }
+    .status-live { color: var(--brand); font-weight: 600; }
+    .status-limited { color: var(--warn); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <h1>Med<span>Lens</span></h1>
+      <p class="tag">Understand your prescription in your own language. · Campus to Cloud Hackathon, Techfest IIT Bombay — Round 1</p>
+    </div>
+  </header>
+
+  <main class="wrap doc">
+    <section class="card">
+      <div class="links">
+        <a href="./" target="_blank" rel="noopener"><b>▶ Live prototype</b><small>d13yy3mzvdlmrz.cloudfront.net</small></a>
+        <a href="https://github.com/Blop77/Claude" target="_blank" rel="noopener"><b>⌨ Code repository</b><small>github.com/Blop77/Claude</small></a>
+        <a href="#video"><b>🎬 Demo video (&lt; 3 min)</b><small><span class="todo">TODO: YouTube link</span></small></a>
+        <a href="#build"><b>☁ Build summary</b><small>AWS services used</small></a>
+      </div>
+      <p class="salt">Team: <span class="todo">TODO: team name, Team ID, member names</span></p>
+    </section>
+
+    <section class="card" id="brief">
+      <h2>1. Idea brief</h2>
+
+      <h3>The problem</h3>
+      <p>A patient leaves a clinic with a prescription in English and medical shorthand — <code>Tab Telma 40 1-0-0</code>.
+        If they read Hindi or Marathi more comfortably than English, they depend on a pharmacist or relative to know
+        what each medicine is for and when to take it. They also usually buy the branded medicine on the slip, even when
+        a Jan Aushadhi generic with the same salt costs far less.</p>
+      <ul>
+        <li>Households paid <b>39.4% of India's total health expenditure out of pocket</b> in 2021-22 — National Health Accounts 2021-22, MoHFW.</li>
+        <li>Jan Aushadhi medicines are priced <b>50–80% below leading brands</b>, and <b>17,990 Kendras</b> were open by 31 Dec 2025 — Government replies in Parliament.</li>
+        <li><span class="todo">TODO: one sourced statistic on English literacy / prescription understanding, or a real story from the team</span></li>
+      </ul>
+
+      <h3>Who it's for</h3>
+      <p>Patients and caregivers more comfortable in Hindi or Marathi than English — especially people on long-term
+        medicines for diabetes, blood pressure, thyroid or cholesterol.</p>
+
+      <h3>The solution</h3>
+      <p>Take a photo of a prescription (or type it). For every medicine MedLens shows, in <b>English, हिन्दी or मराठी</b>:</p>
+      <ul>
+        <li>what it's for, how to take it, common side effects and one key warning;</li>
+        <li>when to take it — <code>1-0-1 x 30 days</code> becomes a morning / afternoon / night chart;</li>
+        <li>an option to <b>hear it read aloud</b> in Hindi or English, for people who find reading hard.</li>
+      </ul>
+      <p>It then finds the <b>Jan Aushadhi medicine with the same salt, strength and form</b>, shows the monthly saving and the
+        nearest Kendra, and makes a WhatsApp list to show at the counter.</p>
+
+      <h3>Why it can be trusted</h3>
+      <ul>
+        <li>Explanations come from a <b>fixed reference</b> written per active ingredient — <b>no AI-generated medical text</b>.
+          Review status: <span class="todo">TODO: "reviewed by pharmacist NAME" or "not yet reviewed" (the app shows a banner until reviewed)</span></li>
+        <li>Generic matching is exact: every salt, strength and dosage form must match; sustained-release is never swapped for normal release.</li>
+        <li>Anything uncertain — an unreadable line, a dose written without a unit — is shown as "ask your pharmacist", never guessed.</li>
+        <li>Prescription photos are processed in memory and not stored.</li>
+      </ul>
+      <p class="salt">MedLens explains; it does not replace a doctor or pharmacist, and the app says so on every screen.</p>
+    </section>
+
+    <section class="card" id="build">
+      <h2>2. Build summary</h2>
+      <div class="flow">Phone browser ── CloudFront ──┬── S3 (static web app)
+                              └── /api/* ── API Gateway (HTTP API, rate-limited)
+                                              └── Lambda (Python 3.12)
+                                                    ├── Amazon Polly    (Hindi / English audio)
+                                                    ├── Amazon Textract (photo → text)
+                                                    └── DynamoDB        (share links, 30-day TTL)</div>
+
+      <table class="svc">
+        <thead><tr><th>AWS service</th><th>What it does in MedLens</th></tr></thead>
+        <tbody>
+          <tr><td>AWS Lambda</td><td>Parses medicines and dosage, looks up explanations, matches Jan Aushadhi generics, finds Kendras</td></tr>
+          <tr><td>Amazon Polly</td><td>Reads explanations aloud with a neural Hindi / Indian-English voice <span class="status-live">● live</span></td></tr>
+          <tr><td>Amazon Textract</td><td>Reads printed prescription photos. <span class="todo">TODO: update after AWS Support reply</span> —
+            until enabled on our account, photos are read on the phone with Tesseract.js and the app labels it "Read on this device".</td></tr>
+          <tr><td>Amazon API Gateway</td><td>Public HTTP API with throttling to stay inside the Free Tier</td></tr>
+          <tr><td>Amazon DynamoDB</td><td>Shareable medicine lists that auto-delete after 30 days (TTL)</td></tr>
+          <tr><td>Amazon S3 + CloudFront</td><td>Hosts the mobile-friendly web app and this page over HTTPS</td></tr>
+          <tr><td>CloudWatch Logs</td><td>Function logs, 7-day retention</td></tr>
+          <tr><td>AWS SAM / CloudFormation</td><td>The whole stack is one template, deployed with one script</td></tr>
+        </tbody>
+      </table>
+      <p class="salt">Region: stack in <span class="todo">TODO: eu-north-1 now / ap-south-1 if moved</span>; Polly and Textract are called in ap-south-1 (Mumbai). All on the AWS Free plan.</p>
+
+      <h3>What is live vs. limited</h3>
+      <ul>
+        <li><span class="status-live">Live:</span> photo or typed prescription → medicine identification → explanation in 3 languages → audio → Jan Aushadhi match → savings → Kendras → share.</li>
+        <li><span class="status-limited">Limited:</span> 14 active ingredients explained so far; tablets and capsules only; handwriting reads poorly (users can type or correct); no Marathi audio (Polly has no Marathi voice).</li>
+        <li><span class="status-limited">Data:</span> <span class="todo">TODO: "generic prices from the official PMBJP product list; brand MRPs from …" — until imported the app shows a SAMPLE DATA banner</span></li>
+      </ul>
+
+      <h3>What's next</h3>
+      <ul>
+        <li>More medicines and languages; pharmacist review workflow for the reference</li>
+        <li>Dosage reminders from the parsed schedule</li>
+        <li>Handwriting support</li>
+      </ul>
+    </section>
+
+    <section class="card" id="video">
+      <h2>3. Demo video</h2>
+      <p><span class="todo">TODO: YouTube (unlisted) link, under 3 minutes</span></p>
+    </section>
+
+    <p class="disclaimer"><b>Not medical advice.</b> MedLens explains medicines in simple words and suggests generic equivalents with the same active ingredients; users are told to confirm with their doctor or pharmacist.</p>
+  </main>
+</body>
+</html>
