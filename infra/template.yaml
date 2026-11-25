@@ -29,6 +29,7 @@ Resources:
       Environment:
         Variables:
           SHARE_TABLE: !Ref ShareTable
+          AI_REGION: ap-south-1   # Textract + Polly region (not every region has Textract)
       Policies:
         - DynamoDBCrudPolicy: { TableName: !Ref ShareTable }
         - Statement:

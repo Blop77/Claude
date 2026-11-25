@@ -33,6 +33,9 @@ CATALOG = Catalog(json.loads((_DATA_DIR / "catalog.json").read_text()), INFO)
 KENDRAS = json.loads((_DATA_DIR / "kendras.json").read_text())
 
 SHARE_TABLE = os.environ.get("SHARE_TABLE")  # DynamoDB table; unset locally
+# Textract and Polly are called in this region (Mumbai has both, incl. the
+# neural Hindi voice), independent of the region the stack is deployed in.
+AI_REGION = os.environ.get("AI_REGION", "ap-south-1")
 SHARE_TTL_DAYS = 30
 MAX_IMAGE_BYTES = 5 * 1024 * 1024  # Textract sync limit for image bytes
 
@@ -53,7 +56,7 @@ def _get_textract():
     global _textract
     if _textract is None:
         import boto3  # available in the Lambda runtime
-        _textract = boto3.client("textract")
+        _textract = boto3.client("textract", region_name=AI_REGION)
     return _textract
 
 
@@ -61,7 +64,7 @@ def _get_polly():
     global _polly
     if _polly is None:
         import boto3
-        _polly = boto3.client("polly")
+        _polly = boto3.client("polly", region_name=AI_REGION)
     return _polly
 
 
