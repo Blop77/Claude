@@ -19,7 +19,8 @@ Built for the **Campus to Cloud Hackathon — Techfest, IIT Bombay (2026)**.
 
 ## What it does (demo flow)
 
-1. Upload a prescription photo (**Amazon Textract** reads it) or type medicines.
+1. Upload a prescription photo (**Amazon Textract** reads it; if Textract is unavailable the photo is
+   read on the phone with Tesseract.js and the app says so) or type medicines.
 2. Each medicine is explained in **English, Hindi or Marathi**: what it's for, how to take it,
    common side effects, and one key warning; `1-0-1 x 30 days` becomes a morning/afternoon/night
    chart. **Amazon Polly** reads it aloud in Hindi or English.

@@ -48,7 +48,7 @@ MedLens explains; it doesn't replace a doctor or pharmacist, and the app says so
 
 | AWS service | What it does in MedLens |
 |---|---|
-| Amazon Textract | Reads printed prescription photos (`DetectDocumentText`) |
+| Amazon Textract | Reads printed prescription photos (`DetectDocumentText`). Fallback: on-device Tesseract.js, labelled in the app. [TODO: confirm Textract is enabled on our account before submitting] |
 | AWS Lambda (Python 3.12) | Parses medicines and dosage, looks up explanations, matches Jan Aushadhi generics, finds Kendras |
 | Amazon Polly | Reads explanations aloud (neural voice, Hindi and Indian English) |
 | Amazon API Gateway (HTTP API) | Public API with rate limiting to stay inside the Free Tier |

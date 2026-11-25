@@ -22,7 +22,9 @@ window.I18N = {
     searching: "Searching…", noKendra: "No Kendra found near this pincode in our list.", directions: "Directions",
     locDenied: "Location permission denied. Enter your pincode instead.",
     reading: "Reading your prescription… (a few seconds)", matching: "Looking up your medicines…",
-    readDone: "Photo read. Please check your medicines below.", needInput: "Type at least one medicine, or upload a photo.",
+    readDone: "Photo read. Please check your medicines below.",
+    readingLocal: "Reading the photo on your phone… (first time can take ~20 seconds)",
+    readOnDevice: "(Read on this device.)", ocrFailed: "Could not read the photo. Please type the medicines instead.", needInput: "Type at least one medicine, or upload a photo.",
     disclaimer: "<b>Not medical advice.</b> MedLens explains medicines in simple words; it does not replace your doctor or pharmacist. Generic matches use the same active ingredients, strengths and form — confirm with your pharmacist before switching. We do not store your prescription photo.",
   },
   hi: {
@@ -46,7 +48,9 @@ window.I18N = {
     searching: "खोज रहे हैं…", noKendra: "इस पिनकोड के पास हमारी सूची में कोई केंद्र नहीं मिला।", directions: "रास्ता देखें",
     locDenied: "लोकेशन की अनुमति नहीं मिली। कृपया पिनकोड डालें।",
     reading: "आपका पर्चा पढ़ रहे हैं… (कुछ सेकंड)", matching: "आपकी दवाइयाँ खोज रहे हैं…",
-    readDone: "फ़ोटो पढ़ ली गई। कृपया नीचे अपनी दवाइयाँ जाँचें।", needInput: "कम से कम एक दवा लिखें या फ़ोटो अपलोड करें।",
+    readDone: "फ़ोटो पढ़ ली गई। कृपया नीचे अपनी दवाइयाँ जाँचें।",
+    readingLocal: "फ़ोटो आपके फ़ोन पर पढ़ी जा रही है… (पहली बार ~20 सेकंड लग सकते हैं)",
+    readOnDevice: "(इसी फ़ोन पर पढ़ी गई।)", ocrFailed: "फ़ोटो पढ़ी नहीं जा सकी। कृपया दवाइयाँ लिखें।", needInput: "कम से कम एक दवा लिखें या फ़ोटो अपलोड करें।",
     disclaimer: "<b>यह चिकित्सा सलाह नहीं है।</b> MedLens दवाओं को आसान शब्दों में समझाता है; यह डॉक्टर या फ़ार्मासिस्ट की जगह नहीं लेता। जेनेरिक दवा वही साल्ट, मात्रा और रूप वाली होती है — बदलने से पहले फ़ार्मासिस्ट से पूछें। हम आपके पर्चे की फ़ोटो सेव नहीं करते।",
   },
   mr: {
@@ -70,7 +74,9 @@ window.I18N = {
     searching: "शोधत आहोत…", noKendra: "या पिनकोडजवळ आमच्या यादीत केंद्र सापडले नाही.", directions: "मार्ग पहा",
     locDenied: "लोकेशनची परवानगी मिळाली नाही. कृपया पिनकोड टाका.",
     reading: "तुमची चिठ्ठी वाचत आहोत… (काही सेकंद)", matching: "तुमची औषधे शोधत आहोत…",
-    readDone: "फोटो वाचला. कृपया खाली तुमची औषधे तपासा.", needInput: "किमान एक औषध लिहा किंवा फोटो अपलोड करा.",
+    readDone: "फोटो वाचला. कृपया खाली तुमची औषधे तपासा.",
+    readingLocal: "फोटो तुमच्या फोनवर वाचत आहोत… (पहिल्यांदा ~20 सेकंद लागू शकतात)",
+    readOnDevice: "(याच फोनवर वाचला.)", ocrFailed: "फोटो वाचता आला नाही. कृपया औषधे लिहा.", needInput: "किमान एक औषध लिहा किंवा फोटो अपलोड करा.",
     disclaimer: "<b>हा वैद्यकीय सल्ला नाही.</b> MedLens औषधे सोप्या शब्दांत समजावते; ते डॉक्टर किंवा फार्मासिस्टची जागा घेत नाही. जेनेरिक औषधात तेच सॉल्ट, मात्रा आणि स्वरूप असते — बदलण्यापूर्वी फार्मासिस्टला विचारा. आम्ही तुमच्या चिठ्ठीचा फोटो साठवत नाही.",
   },
 };

@@ -116,7 +116,8 @@ def parse_lines(text: str, default_units: int = 30) -> list[dict[str, Any]]:
         raw = raw.strip()
         if len(raw) < 3:
             continue
-        name_part = re.sub(r"\b[0-2]\s*-\s*[0-2]\s*-\s*[0-2]\b", " ", raw)
+        name_part = re.sub(r"^\s*(?:\d{1,2}|[a-z])\s*[.)]\s+", " ", raw, flags=re.I)  # "2. ", "3) ", "a. " list numbers
+        name_part = re.sub(r"\b[0-2]\s*-\s*[0-2]\s*-\s*[0-2]\b", " ", name_part)
         name_part = re.sub(r"\d+\s*(days?|weeks?|wks?|months?|d)\b", " ", name_part, flags=re.I)
         cleaned = _clean(name_part)
         words = [w.strip(".") for w in cleaned.split() if w.strip(".") and w.strip(".") not in _NOISE]

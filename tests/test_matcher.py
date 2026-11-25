@@ -89,5 +89,18 @@ class Matching(unittest.TestCase):
         self.assertEqual(statuses["Dr. Sample Clinic"], "no_match")
 
 
+
+class NumberedLines(unittest.TestCase):
+    """Printed prescriptions number their lines; '2.' must not be read as 2 mg."""
+
+    def test_numbered_lines_match(self):
+        rx = "1. Tab Glycomet 500 mg 1-0-1 x 30 days\n2. Tab Telma 40 1-0-0 x 30 days\n3) Tab Atorva 10 0-0-1"
+        res = CATALOG.analyse(parse_lines(rx))
+        self.assertEqual([r["brand"]["brand"] for r in res["items"]], ["Glycomet 500", "Telma 40", "Atorva 10"])
+
+    def test_strength_not_stripped(self):
+        self.assertIn("40", parse_lines("Telma 40")[0]["query"].split())
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -52,7 +52,12 @@
     const res = await fetch(API + path, { headers: { "content-type": "application/json" }, ...opts });
     let data = {};
     try { data = await res.json(); } catch { /* non-JSON error */ }
-    if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
+    if (!res.ok) {
+      const err = new Error(data.error || `Request failed (${res.status})`);
+      err.status = res.status;
+      err.code = data.code;
+      throw err;
+    }
     return data;
   }
 
@@ -76,12 +81,47 @@
     busy(true, t("reading"));
     try {
       const image_base64 = await downscale(file);
-      const data = await call("/extract", { method: "POST", body: JSON.stringify({ image_base64 }) });
+      let data, onDevice = false;
+      try {
+        // 1st choice: Amazon Textract (server side).
+        data = await call("/extract", { method: "POST", body: JSON.stringify({ image_base64 }) });
+      } catch (e) {
+        if (!(e.status >= 500)) throw e; // bad image etc.: show the message
+        // Fallback: read the photo on this device with Tesseract.js, then match on the server.
+        console.warn("Textract unavailable, reading on device:", e.code || e.message);
+        setStatus(t("readingLocal"));
+        const text = await deviceOcr(image_base64);
+        data = await call("/match", { method: "POST", body: JSON.stringify({ text }) });
+        data.ocr_text = text;
+        onDevice = true;
+      }
       if (data.ocr_text) $("rx-text").value = data.ocr_text;
       render(data);
-      setStatus(t("readDone"));
+      setStatus(t("readDone") + (onDevice ? " " + t("readOnDevice") : ""));
     } catch (e) { setStatus(e.message, true); }
     finally { busy(false); $("photo").value = ""; }
+  }
+
+  // On-device OCR fallback. Loaded only when needed (~ a few MB, cached after first use).
+  const TESSERACT_URL = "https://cdn.jsdelivr.net/npm/tesseract.js@6.0.1/dist/tesseract.min.js";
+  let tesseractLoading = null;
+  function loadTesseract() {
+    if (window.Tesseract) return Promise.resolve();
+    tesseractLoading ??= new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = TESSERACT_URL;
+      s.onload = resolve;
+      s.onerror = () => { tesseractLoading = null; reject(new Error(t("ocrFailed"))); };
+      document.head.append(s);
+    });
+    return tesseractLoading;
+  }
+
+  async function deviceOcr(dataUrl) {
+    await loadTesseract();
+    const { data } = await Tesseract.recognize(dataUrl, "eng");
+    if (!data.text.trim()) throw new Error(t("ocrFailed"));
+    return data.text;
   }
 
   // Shrink phone photos to <= 1600px JPEG so uploads stay small and fast.
